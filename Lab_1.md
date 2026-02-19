@@ -28,6 +28,7 @@ Obteniéndose:
 $$v \approx 24.0\ \frac{cm}{s}$$
 
 Luego, a partir del diámetro medido de la rueda (radio $$r=3 cm$$), se calculó la distancia recorrida por revolución:
+
 $$D_{rev} = 2 \pi r = 18.85\ \frac{cm}{rev}$$
 
 Por tanto, para ocho revoluciones:
