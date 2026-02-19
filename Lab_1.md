@@ -1,7 +1,7 @@
 # Lab 1 FMR: Trayectorias y sensores
 ## Grupo de trabajo con el EV3-2
->Johan Sebastian Suarez Sepulveda\
->Santiago Calderón Alarcón
+Johan Sebastian Suarez Sepulveda\
+Santiago Calderón Alarcón
 
 ## Actividad 1
 En esta actividad se programó el robot LEGO EV3 para desplazarse en línea recta, asegurando que ambas ruedas operaran a la misma velocidad.
