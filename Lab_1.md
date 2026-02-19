@@ -40,6 +40,8 @@ Posteriormente, se implementó la lectura del sensor ultrasónico, que mide la d
 
 Debido a la inercia del vehículo, la detención no era inmediata, por lo que se ajustó el umbral a valores ligeramente superiores para compensar el efecto dinámico y aproximarse a la distancia deseada de $$10\ cm$$.
 ### Diagrama de flujo de las acciones del robot
+#### Acción de avanzar por 5 segundos
+
 ### Video del robot ejecutando la actividad
 ### Codigo en blóques del software LEGO MINDSTORMS
 
