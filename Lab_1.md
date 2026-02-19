@@ -20,18 +20,18 @@ siempre se mantenía recta debido a factores como el patinamiento de las ruedas 
 Para mitigar estas perturbaciones, se incrementó la potencia a valores iguales o superiores al 50%, logrando una trayectoria más estable y consistente.
 
 Posteriormente, se realizaron tres ensayos de 5 segundos para estimar la velocidad media del robot, midiendo la distancia recorrida y aplicando la relación cinemática básica:
->$$v =\frac{d}{t}$$
+$$v =\frac{d}{t}$$
 
 Obteniéndose:
 
->$$v \approx 24.0\ \frac{cm}{s}$$
+$$v \approx 24.0\ \frac{cm}{s}$$
 
 Luego, a partir del diámetro medido de la rueda (radio $$r=3 cm$$), se calculó la distancia recorrida por revolución:
->$$D_{rev} = 2 \pi r = 18.85\ \frac{cm}{rev}$$
+$$D_{rev} = 2 \pi r = 18.85\ \frac{cm}{rev}$$
 
 Por tanto, para ocho revoluciones:
 
->$$D_{8rev} = 150.80\ cm$$
+$$D_{8rev} = 150.80\ cm$$
 
 Además, se identificó que el motor EV3 incorpora un encoder rotativo óptico incremental con una resolución de 360 pulsos por revolución, lo que permite controlar el desplazamiento con base
 en el número de vueltas programadas.
