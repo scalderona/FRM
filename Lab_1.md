@@ -20,6 +20,7 @@ siempre se mantenía recta debido a factores como el patinamiento de las ruedas 
 Para mitigar estas perturbaciones, se incrementó la potencia a valores iguales o superiores al 50%, logrando una trayectoria más estable y consistente.
 
 Posteriormente, se realizaron tres ensayos de 5 segundos para estimar la velocidad media del robot, midiendo la distancia recorrida y aplicando la relación cinemática básica:
+
 $$v =\frac{d}{t}$$
 
 Obteniéndose:
@@ -40,10 +41,14 @@ Posteriormente, se implementó la lectura del sensor ultrasónico, que mide la d
 
 Debido a la inercia del vehículo, la detención no era inmediata, por lo que se ajustó el umbral a valores ligeramente superiores para compensar el efecto dinámico y aproximarse a la distancia deseada de $$10\ cm$$.
 ### Diagrama de flujo de las acciones del robot
-#### Acción de avanzar por 5 segundos
-![Texto alternativo](Varios/lab1/Fig1.png)
+#### Moverse hacia adelante por $5$ segundos
+![Fig 1. MF5S](Varios/lab1/fig1.png)
+#### Moverse hacia adelante $8$ giros de la rueda
+![Texto alternativo]()
+#### Moverse hacia adelante hasta $10 \ cm$ de un obstaculo
+![Texto alternativo]()
 
-### Video del robot ejecutando la actividad
+### Videos del robot ejecutando las actividades
 ### Codigo en blóques del software LEGO MINDSTORMS
 
 ## Actividad 2
