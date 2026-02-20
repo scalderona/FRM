@@ -50,7 +50,13 @@ Debido a la inercia del vehículo, la detención no era inmediata, por lo que se
 ![FIg 3. M10](Varios/lab1/fig3.png)
 
 ### Videos del robot ejecutando las actividades
+
 ### Codigo en blóques del software LEGO MINDSTORMS
+#### Moverse hacia adelante $8$ giros de la rueda
+![FIg 5. B8R](Varios/lab1/fig5.png)
+#### Moverse hacia adelante hasta $10 \ cm$ de un obstaculo
+![FIg 6. B10CM](Varios/lab1/fig6.png)
+
 
 ## Actividad 2
 En esta actividad se programó el robot para describir trayectorias curvas controlando la diferencia de velocidades entre las ruedas. Primero,
