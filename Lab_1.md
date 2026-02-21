@@ -113,7 +113,7 @@ verificando el comportamiento esperado frente a la detección del objeto.
 
 ### Solución planteada
 ### Diagrama de flujo de las acciones del robot
-![Act 4. DF]()
+![Act 4. DF](Varios/lab1/Act4_DF.png)
 ### Video del robot ejecutando la actividad
 ### Codigo en blóques del software LEGO MINDSTORMS
 ![Act 4. B](Varios/lab1/Act4_B.jpeg)
