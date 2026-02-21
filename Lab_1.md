@@ -67,6 +67,28 @@ Adicionalmente, se realizaron pruebas variando la velocidad de la rueda más len
 de estos cambios sobre la curvatura y el radio de giro. Finalmente, se propuso un programa que combinara giros en sentidos opuestos para generar una trayectoria en forma de “S”.
 
 ### Solución planteada
+Para generar la primera trayectoria curva, se configuró una rueda con potencia nominal y la otra al 50%. La trayectoria se registró en video y el radio de giro se estimó a partir de la relación entre las velocidades de las ruedas, calculando previamente la velocidad de la rueda más lenta como en la actividad anterior.
+
+Asumiendo que la velocidad de la rueda exterior es el doble de la interior, se utilizó el modelo cinemático del vehículo diferencial:
+
+$$R = \frac{L}{2} \frac{v_{ext}+v_{int}}{v_{ext}-v_{int}}$$
+
+lo que, para $$v_{ext} =2 v_{int} $$, se simplifica a:
+
+$$R=\frac{3L}{2} $$
+
+Donde $$L$$ es la trocha del vehículo que es aroximadamente $$13 cm$$.
+
+En el caso de la relación de velocidades de $$\frac{1}{4}$$ y $$\frac{3}{4}$$ , se observó que el radio de giro aumenta a medida que las velocidades de las ruedas se hacen más similares. Este comportamiento es consistente con el modelo cinemático del vehículo diferencial.
+
+Aplicando la misma relación teórica utilizada anteriormente, se obtienen:
+
+$$R_{1/4}=\frac{5L}{6}$$ $$R_{3/4}=\frac{7L}{2}$$
+
+lo que confirma que, cuando la diferencia entre velocidades disminuye, el radio de giro se incrementa.
+
+Para trazar la "S" con las ruedas, 0terior con la mitad de la velocidad exterior  
+ 
 ### Diagrama de flujo de las acciones del robot
 ### Video del robot ejecutando la actividad
 ### Codigo en blóques del software LEGO MINDSTORMS
