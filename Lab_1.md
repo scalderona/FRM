@@ -47,15 +47,15 @@ Debido a la inercia del vehículo, la detención no era inmediata, por lo que se
 #### Moverse hacia adelante $8$ giros de la rueda
 ![Fig 2. 8R](Varios/lab1/fig2.png)
 #### Moverse hacia adelante hasta $10 \ cm$ de un obstaculo
-![FIg 3. M10](Varios/lab1/fig3.png)
+![Fig 3. M10](Varios/lab1/fig3.png)
 
 ### Videos del robot ejecutando las actividades
 
 ### Codigo en blóques del software LEGO MINDSTORMS
 #### Moverse hacia adelante $8$ giros de la rueda
-![FIg 5. B8R](Varios/lab1/fig5.png)
+![Fig 5. B8R](Varios/lab1/fig5.png)
 #### Moverse hacia adelante hasta $10 \ cm$ de un obstaculo
-![FIg 6. B10CM](Varios/lab1/fig6.png)
+![Fig 6. B10CM](Varios/lab1/fig6.png)
 
 
 ## Actividad 2
@@ -87,7 +87,7 @@ $$R_{1/4}=\frac{5L}{6}$$ $$R_{3/4}=\frac{7L}{2}$$
 
 lo que confirma que, cuando la diferencia entre velocidades disminuye, el radio de giro se incrementa.
 
-Para trazar la "S" con las ruedas, 0terior con la mitad de la velocidad exterior  
+Para trazar la "S" con las ruedas,
  
 ### Diagrama de flujo de las acciones del robot
 ### Video del robot ejecutando la actividad
@@ -97,12 +97,14 @@ Para trazar la "S" con las ruedas, 0terior con la mitad de la velocidad exterior
 En esta actividad se estudió el funcionamiento del girosensor, analizando los valores que entrega en términos de ángulo de rotación y velocidad angular.
 Se programó el robot para avanzar en línea recta, realizar un giro controlado de 45° utilizando la lectura del sensor y continuar con un segundo tramo en línea recta.
 
-Posteriormente, se repitió el procedimiento programando un giro de 135°, evaluando la precisión del ángulo alcanzado y el comportamiento del robot durante el cambio de dirección.
+Posteriormente, se repitió el procedimiento programando un giro de 135°.
 
 ### Solución planteada
 ### Diagrama de flujo de las acciones del robot
+![Act 3. DF](Varios/lab1/Act3_DF.png)
 ### Video del robot ejecutando la actividad
 ### Codigo en blóques del software LEGO MINDSTORMS
+![Act 3. B](Varios/lab1/Act3_B.jpeg)
 
 ## Actividad 4
 En esta actividad se programó el robot para avanzar en línea recta utilizando el sensor infrarrojo para detectar un obstáculo frontal. Al identificar la presencia del obstáculo,
