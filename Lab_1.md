@@ -113,8 +113,10 @@ verificando el comportamiento esperado frente a la detección del objeto.
 
 ### Solución planteada
 ### Diagrama de flujo de las acciones del robot
+![Act 4. DF](Varios/lab1/Act4_DF.png)
 ### Video del robot ejecutando la actividad
 ### Codigo en blóques del software LEGO MINDSTORMS
+![Act 4. B](Varios/lab1/Act4_B.jpeg)
 
 ## Actividad 5
 En esta actividad se programó el robot para ejecutar la misma secuencia de movimientos del ejercicio anterior, pero utilizando el sensor de contacto como mecanismo de detección.
@@ -123,5 +125,7 @@ y continúa con un desplazamiento final en línea recta. El programa fue cargado
 
 ### Solución planteada
 ### Diagrama de flujo de las acciones del robot
+![Act 5. DF](Varios/lab1/Act5_DF.png)
 ### Video del robot ejecutando la actividad
 ### Codigo en blóques del software LEGO MINDSTORMS
+![Act 5. B](Varios/lab1/Act5_B.jpeg)
