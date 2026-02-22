@@ -105,7 +105,17 @@ Para trazar la "S" con las ruedas,
  
 ### Diagrama de flujo de las acciones del robot
 
+#### Mover una rueda a la mitad de la velocidad de la otra
 
+<img width="7692" height="1787" alt="Blank diagram" src="https://github.com/user-attachments/assets/66f8968f-b065-473f-9683-2fa2ee6ab5ec" />
+
+#### Mover una rueda a un cuarto de la velocidad de la otra
+<img width="7630" height="1772" alt="Blank diagram (1)" src="https://github.com/user-attachments/assets/c4d62720-3537-4d6f-93a1-20d7201ff652" />
+
+#### Mover una rueda a tres cuartos de la velocidad de la otra
+<img width="7505" height="1734" alt="Blank diagram (2)" src="https://github.com/user-attachments/assets/aa6bd81b-2962-4ae9-b4db-85556e1a7467" />
+#### Generar una trayectoria en S
+<img width="4692" height="1759" alt="Blank diagram (3)" src="https://github.com/user-attachments/assets/0c93f3d2-68cb-4e7e-9586-3efe4246fd6e" />
 
 ### Video del robot ejecutando la actividad
 
