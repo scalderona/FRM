@@ -150,6 +150,10 @@ Se programó el robot para avanzar en línea recta, realizar un giro controlado 
 Posteriormente, se repitió el procedimiento programando un giro de 135°.
 
 ### Solución planteada
+El girosensor del EV3 detecta la velocidad angular mediante un sistema interno basado en tecnología MEMS (Micro-Electro-Mechanical System), que mide variaciones en la orientación alrededor de un eje. A partir de esta señal, el sensor integra la velocidad angular para determinar el ángulo de giro acumulado, entregando resultados en grados y grados por segundo.
+
+Para el programa de avance, giro y avance, se tomó inicialmente el número de vueltas de la actividad anterior para el primer desplazamiento en línea recta. Posteriormente, se programó el giro (45° y 135°), observándose que un valor positivo corresponde a un giro en sentido horario. Con el fin de mejorar la precisión de la medición angular, el giro se realizó a baja velocidad, permitiendo una lectura más estable del sensor. Finalmente, se programó un segundo desplazamiento rectilíneo de dos segundos en la nueva dirección obtenida tras el giro.
+
 ### Diagrama de flujo de las acciones del robot
 ![Act 3. DF](Varios/lab1/Act3_DF.png)
 ### Video del robot ejecutando la actividad
