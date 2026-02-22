@@ -104,8 +104,30 @@ lo que confirma que, cuando la diferencia entre velocidades disminuye, el radio 
 Para trazar la "S" con las ruedas,
  
 ### Diagrama de flujo de las acciones del robot
+
 ### Video del robot ejecutando la actividad
+
+#### Video una rueda a la mitad de la velocidad de la otra 
+
+https://github.com/user-attachments/assets/95a9ee62-3a97-4095-a98a-614619e9f559
+
+#### Video una rueda un tercio de la velocidad de la otra 
+
+https://github.com/user-attachments/assets/9605d587-1655-4afe-97b2-8b1c128cfaf1
+
+#### Video una rueda a tres cuartos de la velocidad de la otra
+
+https://github.com/user-attachments/assets/a94747d1-72ac-4508-be0b-45fd8c2184b0
+
+#### Video Trayectoria en S
+
+https://github.com/user-attachments/assets/a54161ef-b4a6-4787-8392-959a6441fbfc
+
+
 ### Codigo en blóques del software LEGO MINDSTORMS
+
+#### Codigo en bloques para la trayectoria en S
+<img width="746" height="305" alt="Captura de pantalla 2026-02-18 164515" src="https://github.com/user-attachments/assets/26e38d8a-2954-4ba4-9be4-990d4ee6307f" />
 
 ## Actividad 3
 En esta actividad se estudió el funcionamiento del girosensor, analizando los valores que entrega en términos de ángulo de rotación y velocidad angular.
