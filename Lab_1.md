@@ -193,13 +193,13 @@ $$
 
 donde $$\(p_{\text{prox}}\)$$ es la lectura de proximidad del sensor infrarrojo.
 
-Posteriormente, el robot ejecuta un movimiento de retroceso con una potencia de \(-25\) en ambas ruedas durante una rotación de **191°**. Considerando un radio de rueda de \(r = 3\ \text{cm}\), la distancia recorrida se estimó mediante la longitud de arco:
+Posteriormente, el robot ejecuta un movimiento de retroceso con una potencia de \(-25\) en ambas ruedas durante una rotación de **191°**. Considerando un radio de rueda de r = 3cm, la distancia recorrida se estimó mediante la longitud de arco:
 
 $$
 s = r\theta
 $$
 
-con \(\theta\) expresado en radianes:
+con $$\theta$$ expresado en radianes:
 
 $$
 \theta = 191^\circ \cdot \frac{\pi}{180}
