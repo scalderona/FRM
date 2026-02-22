@@ -40,7 +40,8 @@ en el número de vueltas programadas.
 
 Posteriormente, se implementó la lectura del sensor ultrasónico, que mide la distancia mediante el principio de tiempo de vuelo. Se programó un bucle que permitía al robot avanzar mientras la distancia al obstáculo fuera mayor o igual a $$10\ cm$$, deteniéndose al no cumplirse esta condición.
 
-Debido a la inercia del vehículo, la detención no era inmediata, por lo que se ajustó el umbral a valores ligeramente superiores para compensar el efecto dinámico y aproximarse a la distancia deseada de $$10\ cm$$.
+Debido a la inercia del vehículo, la detención no era inmediata, por lo que se ajustó el umbral a valores ligeramente superiores para compensar el efecto dinámico y aproximarse a la distancia deseada de $$10\ cm$$, así mismo, se redujo la velocidad de desplazamiento con el fin de aumentar el tiempo disponible para que el sensor de proximidad detectara y estimara correctamente la distancia al objeto.
+
 ### Diagrama de flujo de las acciones del robot
 #### Moverse hacia adelante por $5$ segundos
 ![Fig 1. MF5S](Varios/lab1/fig1.png)
