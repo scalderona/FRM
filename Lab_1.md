@@ -180,6 +180,46 @@ el robot retrocede aproximadamente 10 cm, realiza un giro de 90° hacia la izqui
 verificando el comportamiento esperado frente a la detección del objeto. Se observo que la potencia del motor al tener un valor bajo en un momento no logra mover el robot, sin embargo al giroscopio no detectar los 90°, continuo el movimiento hasta lograrlo.
 
 ### Solución planteada
+
+Para esta actividad, se configuró un movimiento inicial con una potencia del **70%** en ambas ruedas. Aunque se trata de un valor relativamente alto, este nivel de accionamiento permite **reducir el efecto de las fricciones y no linealidades a bajas velocidades**, logrando un desplazamiento más cercano a una trayectoria rectilínea.
+
+El sensor infrarrojo del EV3 proporciona una **medida relativa de proximidad** en una escala de **0 a 100**. En esta escala, un valor cercano a \(0\) indica que el obstáculo está **muy próximo**, mientras que un valor cercano a \(100\) indica que está **más alejado**. Esta lectura depende de la **radiación infrarroja reflejada** por el objeto.
+
+En este experimento se estableció un umbral de proximidad de **40**. Para ello, se implementó un ciclo `while` que mantiene el movimiento del robot mientras la proximidad medida sea mayor que dicho umbral. El ciclo finaliza cuando:
+
+$$
+p_{\text{prox}} < 40
+$$
+
+donde \(p_{\text{prox}}\) es la lectura de proximidad del sensor infrarrojo.
+
+Posteriormente, el robot ejecuta un movimiento de retroceso con una potencia de \(-25\) en ambas ruedas durante una rotación de **191°**. Considerando un radio de rueda de \(r = 3\ \text{cm}\), la distancia recorrida se estimó mediante la longitud de arco:
+
+$$
+s = r\theta
+$$
+
+con \(\theta\) expresado en radianes:
+
+$$
+\theta = 191^\circ \cdot \frac{\pi}{180}
+$$
+
+Por tanto, la distancia recorrida es:
+
+$$
+s = 3 \cdot \left(191 \cdot \frac{\pi}{180}\right) \approx 10.0007\ \text{cm}
+$$
+
+Finalmente, se entra en un segundo ciclo `while`, en el cual el robot gira accionando una sola rueda con una potencia de **10**. Se utiliza una potencia baja para que tanto el sensor como el programa dispongan de más tiempo de muestreo, favoreciendo mediciones más precisas durante el giro. Este ciclo se mantiene hasta alcanzar una orientación de **90° hacia la izquierda**, es decir:
+
+$$
+\theta_{\text{giro}} = -90^\circ
+$$
+
+Una vez alcanzado este ángulo, el robot continúa en línea recta durante **2 segundos** con una potencia de **50** en ambas ruedas.
+
+
 ### Diagrama de flujo de las acciones del robot
 ![Act 4. DF](Varios/lab1/Act4_DF.png)
 ### Video del robot ejecutando la actividad
