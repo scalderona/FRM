@@ -239,6 +239,19 @@ El robot avanza en línea recta hasta que el sensor táctil es presionado por un
 y continúa con un desplazamiento final en línea recta. El programa fue cargado y ejecutado en el EV3, verificando el funcionamiento del sensor como sistema de detección por contacto.
 
 ### Solución planteada
+El procedimiento de esta actividad es equivalente al de la actividad anterior. En este caso, la única modificación se encuentra en el **primer ciclo `while`**, el cual ya no depende de la lectura del sensor infrarrojo, sino del **sensor de contacto**.
+
+Para este sensor, el valor de lectura c toma el valor:
+
+- c = 0: sensor no activado  
+- c = 1: sensor activado (contacto detectado)
+
+El ciclo `while` se mantiene mientras el sensor de contacto no esté activado, y finaliza cuando se detecta contacto, es decir, cuando:
+
+$$
+c = 1
+$$
+
 ### Diagrama de flujo de las acciones del robot
 ![Act 5. DF](Varios/lab1/Act5_DF.png)      
 ### Video del robot ejecutando la actividad
