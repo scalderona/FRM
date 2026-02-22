@@ -191,7 +191,7 @@ $$
 p_{\text{prox}} < 40
 $$
 
-donde \(p_{\text{prox}}\) es la lectura de proximidad del sensor infrarrojo.
+donde $$\(p_{\text{prox}}\)$$ es la lectura de proximidad del sensor infrarrojo.
 
 Posteriormente, el robot ejecuta un movimiento de retroceso con una potencia de \(-25\) en ambas ruedas durante una rotación de **191°**. Considerando un radio de rueda de \(r = 3\ \text{cm}\), la distancia recorrida se estimó mediante la longitud de arco:
 
