@@ -105,21 +105,23 @@ Para trazar la "S" con las ruedas,
  
 ### Diagrama de flujo de las acciones del robot
 
+
+
 ### Video del robot ejecutando la actividad
 
-#### Video una rueda a la mitad de la velocidad de la otra 
+#### Una rueda a la mitad de la velocidad de la otra 
 
 https://github.com/user-attachments/assets/95a9ee62-3a97-4095-a98a-614619e9f559
 
-#### Video una rueda un tercio de la velocidad de la otra 
+#### Una rueda un tercio de la velocidad de la otra 
 
 https://github.com/user-attachments/assets/9605d587-1655-4afe-97b2-8b1c128cfaf1
 
-#### Video una rueda a tres cuartos de la velocidad de la otra
+#### Una rueda a tres cuartos de la velocidad de la otra
 
 https://github.com/user-attachments/assets/a94747d1-72ac-4508-be0b-45fd8c2184b0
 
-#### Video Trayectoria en S
+#### Trayectoria en S
 
 https://github.com/user-attachments/assets/a54161ef-b4a6-4787-8392-959a6441fbfc
 
