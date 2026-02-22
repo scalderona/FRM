@@ -51,6 +51,19 @@ Debido a la inercia del vehículo, la detención no era inmediata, por lo que se
 
 ### Videos del robot ejecutando las actividades
 
+#### Moverse Hacia adelante por 5 segundos 
+
+https://github.com/user-attachments/assets/c212254d-742b-4f1e-96e7-f53bd0cdd79f
+
+#### Moverse hacia adelante $8$ giros de la rueda
+
+https://github.com/user-attachments/assets/c176052b-9167-4470-bec9-5a680a45fee8
+
+#### Moverse hacia adelante hasta $10 \ cm$ de un obstaculo
+
+https://github.com/user-attachments/assets/e5840739-04c0-4dcb-ba9e-d7545c7c81d0
+
+
 ### Codigo en blóques del software LEGO MINDSTORMS
 #### Moverse hacia adelante $8$ giros de la rueda
 ![Fig 5. B8R](Varios/lab1/fig5.png)
