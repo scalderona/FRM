@@ -114,7 +114,9 @@ Para trazar la "S" con las ruedas,
 
 #### Mover una rueda a tres cuartos de la velocidad de la otra
 <img width="7505" height="1734" alt="Blank diagram (2)" src="https://github.com/user-attachments/assets/aa6bd81b-2962-4ae9-b4db-85556e1a7467" />
+
 #### Generar una trayectoria en S
+
 <img width="4692" height="1759" alt="Blank diagram (3)" src="https://github.com/user-attachments/assets/0c93f3d2-68cb-4e7e-9586-3efe4246fd6e" />
 
 ### Video del robot ejecutando la actividad
@@ -151,6 +153,20 @@ Posteriormente, se repitió el procedimiento programando un giro de 135°.
 ### Diagrama de flujo de las acciones del robot
 ![Act 3. DF](Varios/lab1/Act3_DF.png)
 ### Video del robot ejecutando la actividad
+
+#### Robot girando 45° y continuando su camino 
+
+
+https://github.com/user-attachments/assets/e334e458-a1c0-4513-934a-b25725400098
+
+
+#### Robot girando 135° y continuando su camino
+
+
+https://github.com/user-attachments/assets/58b109fe-0092-4f4a-9823-3941cd71feac
+
+
+
 ### Codigo en blóques del software LEGO MINDSTORMS
 ![Act 3. B](Varios/lab1/Act3_B.jpeg)
 
