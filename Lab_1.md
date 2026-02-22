@@ -101,7 +101,7 @@ $$R_{1/4}=\frac{5L}{6}$$ $$R_{3/4}=\frac{7L}{2}$$
 
 lo que confirma que, cuando la diferencia entre velocidades disminuye, el radio de giro se incrementa.
 
-Para trazar la "S" con las ruedas,
+Para trazar la "S" con las ruedas, primero se realizo media curva, posteriormente se intercambiaron las velocidades de manera que realizara la misma curva pero en sentido contrario, en este caso, se utilizo potencia de 50 y 25, con un total de 4.2 revoluciones de las ruedas lo que nos dio media curva y la otra se consiguiio intercambiando las potencias manteniendo el numero de revoluciones.
  
 ### Diagrama de flujo de las acciones del robot
 
@@ -173,12 +173,19 @@ https://github.com/user-attachments/assets/58b109fe-0092-4f4a-9823-3941cd71feac
 ## Actividad 4
 En esta actividad se programó el robot para avanzar en línea recta utilizando el sensor infrarrojo para detectar un obstáculo frontal. Al identificar la presencia del obstáculo,
 el robot retrocede aproximadamente 10 cm, realiza un giro de 90° hacia la izquierda y continúa con un desplazamiento final en línea recta. Se cargó y ejecutó el programa en el EV3,
-verificando el comportamiento esperado frente a la detección del objeto.
+verificando el comportamiento esperado frente a la detección del objeto. Se observo que la potencia del motor al tener un valor bajo en un momento no logra mover el robot, sin embargo al giroscopio no detectar los 90°, continuo el movimiento hasta lograrlo.
 
 ### Solución planteada
 ### Diagrama de flujo de las acciones del robot
 ![Act 4. DF](Varios/lab1/Act4_DF.png)
 ### Video del robot ejecutando la actividad
+
+#### Robot se detiene al estar cerca al obstaculo, se regresa 10 cm, gira a la izquierda y continua su camino 
+
+
+https://github.com/user-attachments/assets/7c3af644-980f-4c7b-8bfa-c67bda9159ea
+
+
 ### Codigo en blóques del software LEGO MINDSTORMS
 ![Act 4. B](Varios/lab1/Act4_B.jpeg)
 
@@ -189,7 +196,14 @@ y continúa con un desplazamiento final en línea recta. El programa fue cargado
 
 ### Solución planteada
 ### Diagrama de flujo de las acciones del robot
-![Act 5. DF](Varios/lab1/Act5_DF.png)
+![Act 5. DF](Varios/lab1/Act5_DF.png)      
 ### Video del robot ejecutando la actividad
+
+#### Robot se regresa 10 cm luego de que el sensor de contacto toca la superficie, gira a la izquierda y continua su camino.
+ 
+
+https://github.com/user-attachments/assets/e6328f4d-175e-4917-9319-8f3dd87e1b6b
+
+
 ### Codigo en blóques del software LEGO MINDSTORMS
 ![Act 5. B](Varios/lab1/Act5_B.jpeg)
