@@ -73,6 +73,21 @@ Se inicializan algunas variables de estado del controlador. La variable `self.po
 Se establece la comunicación con `turtle1` mediante la creación de un publicador y un suscriptor. El publicador se configura sobre el tópico `/turtle1/cmd_vel`, empleando mensajes del tipo `Twist`, con el fin de enviar comandos de velocidad lineal y angular. De manera complementaria, se crea un suscriptor al tópico `/turtle1/pose`, usando mensajes del tipo `Pose`, para recibir de forma continua la posición y orientación actual de la tortuga.
 
 Se hace uso del servicio `/turtle1/set_pen` para controlar el color del trazo. Primero, se verifica la disponibilidad del servicio mediante `rospy.wait_for_service` y luego se crea un cliente con `rospy.ServiceProxy`. Se define la variable `self.pen_ready` para indicar que el servicio está listo para su uso. Además, se implementa la función `set_pen_safe`, la cual permite invocar el servicio de forma segura. Finalmente, se inicializa el color del lápiz en rojo.
+
+Posteriormente, se implementa la función de control del movimiento denominada `control`, la cual constituye el núcleo del comportamiento autónomo del sistema. Esta función inicia verificando que se disponga de información de la pose de la tortuga; en caso contrario, no se ejecuta ninguna acción.
+
+Una vez validada la información, se extraen las coordenadas actuales de la tortuga en los ejes `x` y `y`. A partir de la posición en el eje `x`, se determina el lado del entorno en el que se encuentra la tortuga, utilizando la condición `"L" if x < self.x_split else "R"`, donde `"L"` representa la región izquierda y `"R"` la región derecha.
+
+Con base en esta clasificación, se evalúa si la tortuga ha cruzado la línea vertical de referencia (`x_split`). Si se detecta un cambio de lado respecto al estado anterior, se actualiza el color del trazo mediante el servicio `set_pen_safe: azul` cuando la tortuga se encuentra en la región izquierda y verde cuando se ubica en la región derecha. Finalmente, se actualiza la variable `self.last_side` para registrar la nueva posición relativa.
+
+Posteriormente, se implementa la función `dist_borde`, la cual permite calcular la distancia de la tortuga respecto a los límites del entorno, considerando un margen de seguridad. Esta función no solo determina la cercanía a los bordes, sino que también genera valores positivos mientras la tortuga se encuentra dentro de la zona segura y valores negativos cuando se aproxima o sobrepasa el margen definido. De esta manera, estos indicadores permiten identificar de forma sencilla cuándo es necesario activar la lógica de corrección del movimiento.
+
+Finalmente, se implementa la lógica de control del movimiento de la tortuga. En condiciones normales, el sistema mantiene un desplazamiento en línea recta con velocidad constante. Sin embargo, cuando se detecta cercanía a alguno de los bordes del entorno (es decir, cuando las distancias calculadas toman valores negativos), se activa un comportamiento de evasión.
+
+En esta situación, se reduce la velocidad lineal y se introduce una velocidad angular con el fin de redirigir la trayectoria hacia el interior del entorno. A diferencia de una estrategia determinística, el sentido y la magnitud del giro incorporan un componente aleatorio, escalando la velocidad angular mediante un factor basado en una distribución normal.
+
+Esta variabilidad en el giro evita que la tortuga quede atrapada en trayectorias circulares repetitivas o patrones cíclicos, permitiendo generar cambios de dirección más diversos y favoreciendo la salida efectiva de zonas cercanas a los bordes. De esta manera, el controlador logra un comportamiento más robusto frente a situaciones de confinamiento, manteniendo un movimiento autónomo continuo dentro del entorno de simulación.
+
 #### Diagrama de flujo
 #### Resultados obtenidos
 #### Código fuente
