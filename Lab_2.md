@@ -91,17 +91,3 @@ Esta variabilidad en el giro evita que la tortuga quede atrapada en trayectorias
 #### Diagrama de flujo
 #### Resultados obtenidos
 #### Código fuente
-
-
-### Programa 2
-#### Solución planteada
-#### Diagrama de flujo
-#### Resultados obtenidos
-#### Código fuente
-
-
-### Programa 3
-#### Solución planteada
-#### Diagrama de flujo
-#### Resultados obtenidos
-#### Código fuente
