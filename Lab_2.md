@@ -2,7 +2,7 @@
 ## Grupo de trabajo con el EV3-2
 Johan Sebastian Suarez Sepulveda\
 Santiago Calderón Alarcón\
-Nombre 3
+Mateo Concha Buitrago
 
 ## Actividad 1
 La práctica consiste en verificar el funcionamiento del modelo de comunicación distribuida de ROS mediante la interacción entre nodos ejecutados en diferentes equipos dentro de una misma red local. Para ello, se utilizan al menos dos computadores: en el primero se ejecuta el nodo turtlesim_node, encargado de simular el entorno gráfico de una tortuga, mientras que en el segundo se publican comandos de velocidad en el tópico `/turtle1/cmd_vel`.
