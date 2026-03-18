@@ -5,3 +5,15 @@ Santiago Calderón Alarcón\
 Nombre 3
 
 ## Actividad 1
+La práctica consiste en verificar el funcionamiento del modelo de comunicación distribuida de ROS mediante la interacción entre nodos ejecutados en diferentes equipos dentro de una misma red local. Para ello, se utilizan al menos dos computadores: en el primero se ejecuta el nodo turtlesim_node, encargado de simular el entorno gráfico de una tortuga, mientras que en el segundo se publican comandos de velocidad en el tópico /turtle1/cmd_vel.
+
+Previo a la ejecución, es necesario configurar adecuadamente las variables de entorno ROS_MASTER_URI y ROS_IP, con el fin de garantizar la correcta comunicación entre los equipos. Una vez establecida la conexión, desde el segundo computador se envían velocidades lineales y angulares constantes, de manera que la tortuga describa una trayectoria circular, lo que permite evidenciar la relación entre estas variables cinemáticas.
+
+Posteriormente, se evalúa la capacidad de ROS para manejar múltiples nodos dentro de una misma arquitectura distribuida, ejecutando dos instancias de turtlesim y controlando cada una de forma independiente. Con esto, se valida el funcionamiento del sistema en escenarios con múltiples agentes y su correcta gestión de la comunicación entre ellos.
+
+### Solución planteada
+La configuración de las variables de entorno ROS_MASTER_URI y ROS_IP se realizó siguiendo el link guía proporcionado por el monitor. La verificación del correcto funcionamiento de la comunicación se llevó a cabo mediante la ejecución de los nodos de prueba talker (publisher) y listener (subscriber) de ROS, confirmando así el intercambio de mensajes entre equipos.
+
+Es importante destacar que ambos computadores deben estar conectados a la misma red local. Adicionalmente, en caso de utilizar una máquina virtual, esta debe configurarse en modo de red que le permita conectarse de manera independiente, permitiendo la comunicación con los demás nodos de ROS.
+
+Una vez verificada la comunicación se procede a crear dos instancias del turtlesim, solo que estas deben quedar con dos nombres diferentes como sim1 y sim2, de la siguiente manera #rosrun turtlesim turtlesim_node __ns:=sim1 & rosrun turtlesim turtlesim_node __ns:=sim2#.
