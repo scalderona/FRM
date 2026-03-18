@@ -60,10 +60,26 @@ Adicionalmente, se hace uso del servicio `/turtle1/set_pen` para modificar el co
 
 ### Programa 1
 #### Solución planteada
+Inicialmente, se define la cabecera del script en Python 3 y se importan las librerías necesarias para la implementación del nodo en ROS. En particular, `rospy` permite la creación y gestión del nodo, `Twist` se utiliza para publicar comandos de velocidad en el tópico `/turtle1/cmd_vel`, Pose permite recibir la posición y orientación de la tortuga desde `/turtle1/pose`, y `SetPen` se emplea para interactuar con el servicio `/turtle1/set_pen`, encargado de modificar las características del trazo.
+
+A continuación, se define la clase `Turtle`, dentro de la cual se inicializa el nodo de ROS en el método `__init__` mediante la instrucción `rospy.init_node("Turtle_controller", anonymous=False)`. El parámetro `anonymous=False` permite que el nodo conserve un nombre único y fijo dentro de la red de ROS, facilitando su identificación durante la ejecución.
+
+Posteriormente, se configuran los parámetros ajustables mediante la función `rospy.get_param`, la cual permite definir valores configurables desde el servidor de parámetros de ROS. En este caso, se establecen la frecuencia de ejecución (`~rate_hz`), la velocidad lineal (`~lin_speed`), la velocidad angular (`~ang_speed`), la distancia de reacción frente a los bordes (`~margin`) y la posición en el eje x donde se realiza el cambio de color del trazo (`~x_split`).
+
 #### Diagrama de flujo
 #### Resultados obtenidos
 #### Código fuente
 
 
 ### Programa 2
+#### Solución planteada
+#### Diagrama de flujo
+#### Resultados obtenidos
+#### Código fuente
+
+
 ### Programa 3
+#### Solución planteada
+#### Diagrama de flujo
+#### Resultados obtenidos
+#### Código fuente
