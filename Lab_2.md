@@ -40,6 +40,7 @@ rosrun turtlesim turtle_teleop_key
 ```
 
 Una vez verificada la correcta comunicación entre los equipos, se publicaron mensajes en el topico cmd_vel, el cual tiene la siguiente estructura:
+
 <img width="658" height="207" alt="Captura de pantalla de 2026-03-25 17-42-48" src="https://github.com/user-attachments/assets/0c2008aa-eeb4-4421-be05-f1b0b8b623d1" />
 
 se publico el siguiente mensaje en el computador externo:
@@ -105,30 +106,35 @@ El nodo implementado publica comandos de velocidad en el tópico `/turtle1/cmd_v
 
 Adicionalmente, se hace uso del servicio `/turtle1/set_pen` para modificar el color del trazo de la tortuga de forma dinámica, en función de su posición dentro del entorno. Esto permite evidenciar la integración de publishers, subscribers y servicios dentro de un mismo nodo en ROS.
 
-### Programa 1
+### Programa
 #### Solución planteada
-Inicialmente, se define la cabecera del script en Python 3 y se importan las librerías necesarias para la implementación del nodo en ROS. En particular, `rospy` permite la creación y gestión del nodo, `Twist` se utiliza para publicar comandos de velocidad en el tópico `/turtle1/cmd_vel`, Pose permite recibir la posición y orientación de la tortuga desde `/turtle1/pose`, y `SetPen` se emplea para interactuar con el servicio `/turtle1/set_pen`, encargado de modificar las características del trazo.
+Inicialmente, se define la cabecera del script en Python 3 y se importan las librerías necesarias para la implementación del nodo en ROS. En particular, `rospy` permite la creación y gestión del nodo; `Twist` se utiliza para publicar comandos de velocidad en el tópico `/turtle1/cmd_vel`; `Pose` permite recibir la posición y orientación de la tortuga desde `/turtle1/pose`; y `SetPen` se emplea para interactuar con el servicio `/turtle1/set_pen`, encargado de modificar las características del trazo.
 
 Se define la clase `Turtle`, dentro de la cual se inicializa el nodo de ROS en el método `__init__` mediante la instrucción `rospy.init_node("Turtle_controller", anonymous=False)`. El parámetro `anonymous=False` permite que el nodo conserve un nombre único y fijo dentro de la red de ROS, facilitando su identificación durante la ejecución.
 
-Se configuran los parámetros ajustables mediante la función `rospy.get_param`, la cual permite definir valores configurables desde el servidor de parámetros de ROS. En este caso, se establecen la frecuencia de ejecución (`~rate_hz`), la velocidad lineal (`~lin_speed`), la velocidad angular (`~ang_speed`), la distancia de reacción frente a los bordes (`~margin`) y la posición en el eje x donde se realiza el cambio de color del trazo (`~x_split`).
+Posteriormente, se configuran los parámetros ajustables mediante la función `rospy.get_param`, la cual permite definir valores desde el servidor de parámetros de ROS. En este caso, se establecen la frecuencia de ejecución (`~rate_hz`), la velocidad lineal en condiciones normales (`~lin_speed_normal`), la velocidad lineal al aproximarse a los bordes (`~lin_speed_borde`), la velocidad angular aplicada cerca de los bordes (`~ang_speed_borde`), la distancia de reacción frente a los bordes (`~margin`) y la posición en el eje `x` donde se realiza el cambio de color del trazo (`~x_split`).
 
-Se definen los límites del entorno de simulación mediante los parámetros `x_min`, `x_max`, `y_min` y `y_max`, los cuales delimitan el área de movimiento de la tortuga. En este caso, se toma como referencia el entorno por defecto de `turtlesim`, que generalmente corresponde a una ventana cuadrada de 11 × 11 unidades.
+Se definen los límites del entorno de simulación mediante los parámetros `x_min`, `x_max`, `y_min` y `y_max`, los cuales delimitan el área de movimiento de la tortuga. Se toma como referencia el entorno por defecto de `turtlesim`, correspondiente a una ventana cuadrada de aproximadamente 11 × 11 unidades.
 
-Se inicializan algunas variables de estado del controlador. La variable `self.pose` guarda la posición actual de la tortuga, `self.last_side` registra el último lado de referencia en el eje x, y `self.pen_ready` indica la disponibilidad del servicio para modificar el color del trazo.
+A continuación, se inicializan las variables de estado del controlador. La variable `self.pose` almacena la posición actual de la tortuga, `self.color_actual` registra el color del trazo actualmente asignado, y `self.pen_ready` indica la disponibilidad del servicio encargado de modificar el color del trazo.
 
-Se establece la comunicación con `turtle1` mediante la creación de un publicador y un suscriptor. El publicador se configura sobre el tópico `/turtle1/cmd_vel`, empleando mensajes del tipo `Twist`, con el fin de enviar comandos de velocidad lineal y angular. De manera complementaria, se crea un suscriptor al tópico `/turtle1/pose`, usando mensajes del tipo `Pose`, para recibir de forma continua la posición y orientación actual de la tortuga.
+Se establece la comunicación con `turtle1` mediante la creación de un publicador y un suscriptor. El publicador se configura sobre el tópico `/turtle1/cmd_vel`, utilizando mensajes de tipo `Twist`, con el fin de enviar comandos de velocidad lineal y angular. De manera complementaria, se crea un suscriptor al tópico `/turtle1/pose`, empleando mensajes de tipo `Pose`, para recibir de forma continua la posición y orientación de la tortuga.
 
-Se hace uso del servicio `/turtle1/set_pen` para controlar el color del trazo. Primero, se verifica la disponibilidad del servicio mediante `rospy.wait_for_service` y luego se crea un cliente con `rospy.ServiceProxy`. Se define la variable `self.pen_ready` para indicar que el servicio está listo para su uso. Además, se implementa la función `set_pen_safe`, la cual permite invocar el servicio de forma segura. Finalmente, se inicializa el color del lápiz en rojo.
+Para el control del color del trazo, se utiliza el servicio `/turtle1/set_pen`. Primero, se verifica su disponibilidad mediante `rospy.wait_for_service`, y posteriormente se crea un cliente con `rospy.ServiceProxy`. Se emplea la variable `self.pen_ready` para indicar que el servicio está listo para su uso. Adicionalmente, se implementa la función `set_pen_safe`, la cual permite invocar el servicio de forma segura. Finalmente, se inicializa el color del lápiz en rojo.
 
-Posteriormente, se implementa la función de control del movimiento denominada `control`, la cual constituye el núcleo del comportamiento autónomo del sistema. Esta función inicia verificando que se disponga de información de la pose de la tortuga; en caso contrario, no se ejecuta ninguna acción.
+##### *Funciones de apoyo*
 
-Una vez validada la información, se extraen las coordenadas actuales de la tortuga en los ejes `x` y `y`. A partir de la posición en el eje `x`, se determina el lado del entorno en el que se encuentra la tortuga, utilizando la condición `"L" if x < self.x_split else "R"`, donde `"L"` representa la región izquierda y `"R"` la región derecha.
+La función `cerca_borde(self, x, y)` permite identificar si la tortuga se encuentra próxima a alguno de los límites del entorno de simulación. Para ello, compara las coordenadas actuales con los valores mínimos y máximos permitidos en cada eje, considerando una zona de seguridad definida por `self.margin`. Si la posición se encuentra dentro de esta franja cercana a cualquiera de los bordes, la función retorna `True`; en caso contrario, retorna `False`.
 
-Con base en esta clasificación, se evalúa si la tortuga ha cruzado la línea vertical de referencia (`x_split`). Si se detecta un cambio de lado respecto al estado anterior, se actualiza el color del trazo mediante el servicio `set_pen_safe: azul` cuando la tortuga se encuentra en la región izquierda y verde cuando se ubica en la región derecha. Finalmente, se actualiza la variable `self.last_side` para registrar la nueva posición relativa.
+La función `actualizar_color(self, x)` se encarga de modificar el color del trazo de la tortuga en función de su posición sobre el eje `x`. Si la tortuga se encuentra a la izquierda del umbral `self.x_split`, el trazo se establece en color rojo; si se encuentra a la derecha o sobre dicho umbral, el color cambia a azul. La actualización solo se realiza cuando se detecta un cambio respecto al estado previo, evitando llamadas innecesarias al servicio `set_pen_safe`. Además, se actualiza la variable `self.color_actual` para registrar el estado vigente.
 
-Posteriormente, se implementa la función `dist_borde`, la cual permite calcular la distancia de la tortuga respecto a los límites del entorno, considerando un margen de seguridad. Esta función no solo determina la cercanía a los bordes, sino que también genera valores positivos mientras la tortuga se encuentra dentro de la zona segura y valores negativos cuando se aproxima o sobrepasa el margen definido. De esta manera, estos indicadores permiten identificar de forma sencilla cuándo es necesario activar la lógica de corrección del movimiento.
+##### *Función de control*
 
+La función `control(self)` implementa la lógica principal de movimiento de la tortuga. En primer lugar, verifica que la pose actual esté disponible; en caso contrario, la función finaliza sin ejecutar acciones. Luego, extrae las coordenadas actuales `x` y `y`, crea un mensaje de tipo `Twist` e inicializa un movimiento base con velocidad lineal constante (`self.lin_speed_normal`) y velocidad angular nula, generando un desplazamiento rectilíneo.
+
+Posteriormente, si la tortuga se encuentra cerca de alguno de los bordes del entorno, según lo determinado por la función `cerca_borde`, se reduce la velocidad lineal (`self.lin_speed_borde`) y se introduce una velocidad angular distinta de cero (`self.ang_speed_borde`), induciendo un giro que evita la salida del área de trabajo.
+
+Finalmente, se actualiza el color del trazo mediante la función `actualizar_color(x)` y se publica el comando de velocidad en el tópico correspondiente mediante `self.cmd_pub.publish(twist)`.
 
 
 #### Diagrama de flujo comportamiento del robot
