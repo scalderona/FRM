@@ -27,7 +27,12 @@ export ROS_IP=192.168.1.10
 export ROS_MASTER_URI=http://192.168.1.10:11311
 export ROS_IP=192.168.1.20
 ```
-La verificación de la comunicación se realizó utilizando el nodo de turtlesim y ejecutando el teleoperate key en el computador externo
+
+La verificación de la comunicación se realizó ejecutando el nodo turtlesim en el computador maestro y el nodo de teleoperación por teclado (teleop key) en el computador externo. Los comandos utilizados se presentan a continuación, y la validación del correcto funcionamiento se evidencia en el primer video adjunto.
+
+```
+
+```
 
 Una vez verificada la correcta comunicación entre los equipos, se procede a ejecutar dos instancias del simulador turtlesim. Para evitar conflictos entre nodos y tópicos, cada instancia se lanza en un namespace diferente, asignando los nombres sim1 y sim2. Esto se realiza mediante el siguiente comando:
 
