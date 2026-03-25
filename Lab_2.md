@@ -115,6 +115,7 @@ Posteriormente, se implementa la función `dist_borde`, la cual permite calcular
 
 #### Diagrama de flujo comportamiento del robot
 
+Fase de configuración
 <img width="1788" height="331" alt="image" src="https://github.com/user-attachments/assets/2a95594b-8e92-4e41-936f-87fede4ef810" />
 
 #### Resultados obtenidos
