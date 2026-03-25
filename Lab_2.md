@@ -111,11 +111,7 @@ Con base en esta clasificación, se evalúa si la tortuga ha cruzado la línea v
 
 Posteriormente, se implementa la función `dist_borde`, la cual permite calcular la distancia de la tortuga respecto a los límites del entorno, considerando un margen de seguridad. Esta función no solo determina la cercanía a los bordes, sino que también genera valores positivos mientras la tortuga se encuentra dentro de la zona segura y valores negativos cuando se aproxima o sobrepasa el margen definido. De esta manera, estos indicadores permiten identificar de forma sencilla cuándo es necesario activar la lógica de corrección del movimiento.
 
-Finalmente, se implementa la lógica de control del movimiento de la tortuga. En condiciones normales, el sistema mantiene un desplazamiento en línea recta con velocidad constante. Sin embargo, cuando se detecta cercanía a alguno de los bordes del entorno (es decir, cuando las distancias calculadas toman valores negativos), se activa un comportamiento de evasión.
 
-En esta situación, se reduce la velocidad lineal y se introduce una velocidad angular con el fin de redirigir la trayectoria hacia el interior del entorno. A diferencia de una estrategia determinística, el sentido y la magnitud del giro incorporan un componente aleatorio, escalando la velocidad angular mediante un factor basado en una distribución normal.
-
-Esta variabilidad en el giro evita que la tortuga quede atrapada en trayectorias circulares repetitivas o patrones cíclicos, permitiendo generar cambios de dirección más diversos y favoreciendo la salida efectiva de zonas cercanas a los bordes. De esta manera, el controlador logra un comportamiento más robusto frente a situaciones de confinamiento, manteniendo un movimiento autónomo continuo dentro del entorno de simulación.
 
 #### Diagrama de flujo
 #### Resultados obtenidos
