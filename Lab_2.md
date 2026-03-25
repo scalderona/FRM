@@ -14,7 +14,19 @@ Previo a la ejecución, es necesario configurar adecuadamente las variables de e
 Posteriormente, se evalúa la capacidad de ROS para manejar múltiples nodos dentro de una misma arquitectura distribuida, ejecutando dos instancias de turtlesim y controlando cada una de forma independiente. Con esto, se valida el funcionamiento del sistema en escenarios con múltiples agentes y su correcta gestión de la comunicación entre ellos.
 
 ### Solución planteada
-La configuración de las variables de entorno `ROS_MASTER_URI` y `ROS_IP` se realizó siguiendo el link guía proporcionado por el monitor. La verificación del correcto funcionamiento de la comunicación se llevó a cabo mediante la ejecución de los nodos de prueba talker (publisher) y listener (subscriber) de ROS, confirmando así el intercambio de mensajes entre equipos.
+La configuración de las variables de entorno `ROS_MASTER_URI` y `ROS_IP` se realizó siguiendo el link guía proporcionado por el monitor. Resultando en los siguientes codigos para la communicación entre computadores.
+
+*Computador local:*
+```
+export ROS_MASTER_URI=http://192.168.1.10:11311
+export ROS_IP=192.168.1.10
+```
+
+*Computador externo:*
+```
+export ROS_MASTER_URI=http://192.168.1.10:11311
+export ROS_IP=192.168.1.20
+```
 
 Una vez verificada la correcta comunicación entre los equipos, se procede a ejecutar dos instancias del simulador turtlesim. Para evitar conflictos entre nodos y tópicos, cada instancia se lanza en un namespace diferente, asignando los nombres sim1 y sim2. Esto se realiza mediante el siguiente comando:
 
