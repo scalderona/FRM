@@ -3,7 +3,6 @@
 Johan Sebastian Suarez Sepulveda\
 Santiago Calderón Alarcón\
 Mateo Concha Buitrago
-
 ## Actividad 1
 La práctica consiste en verificar el funcionamiento del modelo de comunicación distribuida de ROS mediante la interacción entre nodos ejecutados en diferentes equipos dentro de una misma red local. Para ello, se utilizan al menos dos computadores: en el primero se ejecuta el nodo turtlesim_node, encargado de simular el entorno gráfico de una tortuga, mientras que en el segundo se publican comandos de velocidad en el tópico `/turtle1/cmd_vel`.
 
@@ -40,7 +39,24 @@ rosrun turtlesim turtlesim_node
 rosrun turtlesim turtle_teleop_key
 ```
 
-Una vez verificada la correcta comunicación entre los equipos, se procede a ejecutar dos instancias del simulador turtlesim. Para evitar conflictos entre nodos y tópicos, cada instancia se lanza en un namespace diferente, asignando los nombres sim1 y sim2. Esto se realiza mediante el siguiente comando:
+Una vez verificada la correcta comunicación entre los equipos, se publicaron mensajes en el topico cmd_vel, el cual tiene la siguiente estructura:
+<img width="658" height="207" alt="Captura de pantalla de 2026-03-25 17-42-48" src="https://github.com/user-attachments/assets/0c2008aa-eeb4-4421-be05-f1b0b8b623d1" />
+
+se publico el siguiente mensaje en el computador externo:
+
+```
+rostopic pub -r 2 /turtle1/cmd_vel geometry_msgs/Twist "linear:
+  x: 2.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: -1.8"
+```
+
+
+Posteriorment se procede a ejecutar dos instancias del simulador turtlesim. Para evitar conflictos entre nodos y tópicos, cada instancia se lanza en un namespace diferente, asignando los nombres sim1 y sim2. Esto se realiza mediante el siguiente comando:
 
 *Computador maestro:*
 ```
@@ -78,7 +94,9 @@ angular:
 
 ### Resultados obtenidos
 
-**Imagenes y videos**
+En el primer caso operando desde un computador externo la tortuga, al enviar el mensaje por el topico se obtuvo el siguiente resultado:
+
+https://github.com/user-attachments/assets/7358d690-6d32-49a8-904d-e6696d4f3662
 
 ## Actividad 2
 En esta actividad se propone la creación de un paquete dentro del workspace de ROS, el cual contiene un nodo desarrollado por el estudiante para controlar de manera autónoma el movimiento de la tortuga en turtlesim.
