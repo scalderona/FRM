@@ -16,7 +16,7 @@ Posteriormente, se evalúa la capacidad de ROS para manejar múltiples nodos den
 ### Solución planteada
 La configuración de las variables de entorno `ROS_MASTER_URI` y `ROS_IP` se realizó siguiendo el enlace guía proporcionado por el monitor, obteniendo como resultado los siguientes comandos para establecer la comunicación entre los computadores.
 
-*Computador local:*
+*Computador maestro:*
 ```
 export ROS_MASTER_URI=http://192.168.1.10:11311
 export ROS_IP=192.168.1.10
@@ -30,19 +30,39 @@ export ROS_IP=192.168.1.20
 
 La verificación de la comunicación se realizó ejecutando el nodo turtlesim en el computador maestro y el nodo de teleoperación por teclado (teleop key) en el computador externo. Los comandos utilizados se presentan a continuación, y la validación del correcto funcionamiento se evidencia en el primer video adjunto.
 
+*Computador maestro:*
+```
+rosrun turtlesim turtlesim_node
 ```
 
+*Computador externo:*
+```
+rosrun turtlesim turtle_teleop_key
 ```
 
 Una vez verificada la correcta comunicación entre los equipos, se procede a ejecutar dos instancias del simulador turtlesim. Para evitar conflictos entre nodos y tópicos, cada instancia se lanza en un namespace diferente, asignando los nombres sim1 y sim2. Esto se realiza mediante el siguiente comando:
 
+*Computador maestro:*
 ```
-rosrun turtlesim turtlesim_node __ns:=sim1 & rosrun turtlesim turtlesim_node __ns:=sim2
+ROS_NAMESPACE=sim1 rosrun turtlesim turtlesim_node __name:=turtlesim
+ROS_NAMESPACE=sim2 rosrun turtlesim turtlesim_node __name:=turtlesim
 ```
 
 De esta manera, cada simulación opera de forma independiente dentro de su propio espacio de nombres.
 
 El control de cada tortuga se llevó a cabo desde distintos equipos, publicando comandos de velocidad en los respectivos tópicos asociados a cada namespace. En el computador externo se controló la tortuga correspondiente a `sim1`, mientras que en el computador local se controló la tortuga de `sim2`, como se muestra a continuación:
+
+*Computador maestro:*
+```
+rostopic pub -r 2 /sim2/turtle1/cmd_vel geometry_msgs/Twist "linear:
+  x: 2.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: -1.8"
+```
 
 *Computador externo:*
 ```
@@ -56,17 +76,6 @@ angular:
   z: 1.8"
 ```
 
-*Computador local:*
-```
-rostopic pub -r 2 /sim2/turtle1/cmd_vel geometry_msgs/Twist "linear:
-  x: 2.0
-  y: 0.0
-  z: 0.0
-angular:
-  x: 0.0
-  y: 0.0
-  z: -1.8"
-```
 ### Resultados obtenidos
 
 **Imagenes y videos**
