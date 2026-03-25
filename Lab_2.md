@@ -142,3 +142,110 @@ Finalmente, se actualiza el color del trazo mediante la función `actualizar_col
 
 #### Resultados obtenidos
 #### Código fuente
+```
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import rospy
+from geometry_msgs.msg import Twist
+from turtlesim.msg import Pose
+from turtlesim.srv import SetPen
+
+
+class Turtle(object):
+    def __init__(self):
+        rospy.init_node("Turtle_controller", anonymous=False)
+
+        self.rate_hz = rospy.get_param("~rate_hz", 10.0)
+
+        self.lin_speed_normal = rospy.get_param("~lin_speed_normal", 2.0)
+        self.lin_speed_borde = rospy.get_param("~lin_speed_borde", 1.0)
+        self.ang_speed_borde = rospy.get_param("~ang_speed_borde", 1.5)
+
+        self.margin = rospy.get_param("~margin", 2.0)
+        self.x_split = rospy.get_param("~x_split", 5.5)
+
+        self.x_min = rospy.get_param("~x_min", 0.0)
+        self.x_max = rospy.get_param("~x_max", 11.0)
+        self.y_min = rospy.get_param("~y_min", 0.0)
+        self.y_max = rospy.get_param("~y_max", 11.0)
+
+        self.pose = None
+        self.color_actual = None
+        self.pen_ready = False
+
+        self.cmd_pub = rospy.Publisher("/turtle1/cmd_vel", Twist, queue_size=10)
+        self.pose_sub = rospy.Subscriber("/turtle1/pose", Pose, self.pose_cb)
+
+        rospy.wait_for_service("/turtle1/set_pen")
+        self.set_pen = rospy.ServiceProxy("/turtle1/set_pen", SetPen)
+        self.pen_ready = True
+
+        self.set_pen_safe(255, 0, 0, 3, 0)
+        self.color_actual = "rojo"
+
+    def pose_cb(self, msg):
+        self.pose = msg
+
+    def set_pen_safe(self, r, g, b, width, off):
+        if not self.pen_ready:
+            return
+        try:
+            self.set_pen(r, g, b, width, off)
+        except rospy.ServiceException as e:
+            rospy.logwarn("set_pen failed: %s", str(e))
+
+    def cerca_borde(self, x, y):
+        return (
+            x < (self.x_min + self.margin) or
+            x > (self.x_max - self.margin) or
+            y < (self.y_min + self.margin) or
+            y > (self.y_max - self.margin)
+        )
+
+    def actualizar_color(self, x):
+        if x < self.x_split and self.color_actual != "rojo":
+            self.set_pen_safe(255, 0, 0, 3, 0)
+            self.color_actual = "rojo"
+            rospy.loginfo("Color cambiado a rojo")
+
+        elif x >= self.x_split and self.color_actual != "azul":
+            self.set_pen_safe(0, 0, 255, 3, 0)
+            self.color_actual = "azul"
+            rospy.loginfo("Color cambiado a azul")
+
+    def control(self):
+        if self.pose is None:
+            return
+
+        x = self.pose.x
+        y = self.pose.y
+
+        twist = Twist()
+
+        twist.linear.x = self.lin_speed_normal
+        twist.angular.z = 0.0
+
+        if self.cerca_borde(x, y):
+            twist.linear.x = self.lin_speed_borde
+            twist.angular.z = self.ang_speed_borde
+
+        self.actualizar_color(x)
+
+        self.cmd_pub.publish(twist)
+
+    def spin(self):
+        rate = rospy.Rate(self.rate_hz)
+        while not rospy.is_shutdown():
+            self.control()
+            rate.sleep()
+
+
+if __name__ == "__main__":
+    try:
+        node = Turtle()
+        node.spin()
+    except rospy.ROSInterruptException:
+        pass
+
+```
