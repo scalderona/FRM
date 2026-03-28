@@ -9,7 +9,7 @@ aaaaaaaaaa
 
 ### Solución planteada
 
-### Diagrama de Fluji
+### Diagrama de Flujo
 Inicialización del nodo ROS, espera de la odometría y confirmación del usuario para iniciar la trayectoria.
 <img width="1770" height="151" alt="image" src="https://github.com/user-attachments/assets/85b379e3-a207-43a5-9526-86fb20bf31fb" />
 
