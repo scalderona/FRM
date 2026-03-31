@@ -138,7 +138,25 @@ Finalmente, se actualiza el color del trazo mediante la función `actualizar_col
 
 
 #### Diagrama de flujo comportamiento del robot
-/>
+
+Inicialización del nodo ROS y configuración de publicador, suscriptor y cliente de servicio.
+<img width="1795" height="150" alt="image" src="https://github.com/user-attachments/assets/a77e99cc-bece-4bb7-9f7e-b5677a31eff4" />
+
+Lectura de la posición y orientación de la tortuga desde el tópico /turtle1/pose.
+<img width="918" height="185" alt="image" src="https://github.com/user-attachments/assets/ab11233c-80a4-43e9-82e5-c6c71e4844c3" />
+
+Evaluación de la posición de la tortuga para evitar colisiones con los bordes del entorno.
+<img width="1191" height="472" alt="image" src="https://github.com/user-attachments/assets/de0fc641-c092-47cc-a939-22b4e801b6c9" />
+
+Evaluación de la posición horizontal para realizar el cambio dinámico de color mediante un servicio.
+<img width="1051" height="482" alt="image" src="https://github.com/user-attachments/assets/267e94d7-b017-4b8e-973f-dc42aa6982d1" />
+
+Publicación de las velocidades lineal y angular en el tópico /turtle1/cmd_vel.
+<img width="923" height="172" alt="image" src="https://github.com/user-attachments/assets/445de622-e482-4894-b118-db8794146ea8" />
+
+Repetición continua del ciclo de lectura, decisión y control del sistema.
+<img width="922" height="192" alt="image" src="https://github.com/user-attachments/assets/1f0c7e3a-6393-4a9b-b6a0-0d8736bcf22a" />
+
 
 #### Resultados obtenidos
 #### Código fuente
