@@ -99,6 +99,11 @@ En el primer caso operando desde un computador externo la tortuga, al enviar el 
 
 https://github.com/user-attachments/assets/7358d690-6d32-49a8-904d-e6696d4f3662
 
+En el segundo caso se operaron dos tortugas una desde cada computador, haciendolas girar en sentido contrario para identificar el movimiento de cada una, el resultado se ve a continuacion
+
+https://github.com/user-attachments/assets/ef7c212c-abea-4aef-8290-7a4aa458ed8e
+
+
 ## Actividad 2
 En esta actividad se propone la creación de un paquete dentro del workspace de ROS, el cual contiene un nodo desarrollado por el estudiante para controlar de manera autónoma el movimiento de la tortuga en turtlesim.
 
@@ -267,3 +272,7 @@ if __name__ == "__main__":
         pass
 
 ```
+A continuacion se ve el nodo ros operando, cambiando de color dependiendo la posicion donde se encuentra la tortuga, evitando que llegue al margen de la ventana: 
+
+[Captura del escritorio de 25-03-26 16:59:10.webm](https://github.com/user-attachments/assets/c37c9568-1fd6-4c31-a56a-f30e163e5dd7)
+
