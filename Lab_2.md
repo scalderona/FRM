@@ -101,7 +101,7 @@ https://github.com/user-attachments/assets/7358d690-6d32-49a8-904d-e6696d4f3662
 
 En el segundo caso se operaron dos tortugas una desde cada computador, haciendolas girar en sentido contrario para identificar el movimiento de cada una, el resultado se ve a continuacion
 
-https://github.com/user-attachments/assets/ef7c212c-abea-4aef-8290-7a4aa458ed8e
+https://github.com/user-attachments/assets/24269c91-3b58-463c-a3f6-fdd8862a691d
 
 
 ## Actividad 2
