@@ -25,7 +25,7 @@ uno de los topicos es el `/mobile_base/commands/velocity`, el cual nos permite p
 
 Como se puede observar el tipo de mensaje es `geometry_msg/Twist` el cual tiene la siguiente estructura : 
 ```text
-Vector3 linear \\
+Vector3 linear 
 Vector3 angular
 ```
 Un ejemplo del mensaje que se puede publicar a traves de este topico es : 
