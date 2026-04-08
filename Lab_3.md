@@ -5,13 +5,13 @@ Santiago Calderón Alarcón\
 Mateo Concha Buitrago
 
 ## Actividad 1
-El objetivo de la actividad fue preparar el entorno de trabajo y verificar el correcto funcionamiento del robot Kobuki dentro del ecosistema ROS. Inicialmente, se configuró el workspace siguiendo la guía proporcionada. Posteriormente, se ejecutó el nodo principal del robot mediante el comando roslaunch kobuki_node kobuki_node.launch.
+El objetivo de la actividad fue preparar el entorno de trabajo y verificar el correcto funcionamiento del robot Kobuki dentro del ecosistema ROS. Inicialmente, se configuró el workspace siguiendo la guía proporcionada. Posteriormente, se ejecutó el nodo principal del robot mediante el comando `roslaunch kobuki_node kobuki_node.launch`.
 
-Una vez iniciado el sistema, se exploraron los tópicos activos en ROS, identificando los mensajes publicados por el robot. Se seleccionó un tópico para analizar la información transmitida y su tipo de mensaje asociado. Asimismo, se identificó el tópico encargado del control de velocidad, desde el cual se enviaron comandos para generar movimiento en el robot. De forma simultánea, se monitoreó el tópico /odom con el fin de analizar la estimación de la posición y orientación durante el desplazamiento.
+Una vez iniciado el sistema, se exploraron los tópicos activos en ROS, identificando los mensajes publicados por el robot. Se seleccionó un tópico para analizar la información transmitida y su tipo de mensaje asociado. Asimismo, se identificó el tópico encargado del control de velocidad, desde el cual se enviaron comandos para generar movimiento en el robot. De forma simultánea, se monitoreó el tópico `/odom` con el fin de analizar la estimación de la posición y orientación durante el desplazamiento.
 
-Posteriormente, se evaluó el comportamiento de la odometría, observando que, incluso en trayectorias rectilíneas, se registraron variaciones en las variables reportadas en /odom. Estas discrepancias se atribuyeron principalmente a posibles deslizamientos de las ruedas y a limitaciones inherentes en la estimación odométrica, descartando en gran medida errores acumulativos de sensores debido al corto intervalo de operación.
+Posteriormente, se evaluó el comportamiento de la odometría, observando que, incluso en trayectorias rectilíneas, se registraron variaciones en las variables reportadas en `/odom`. Estas discrepancias se atribuyeron principalmente a posibles deslizamientos de las ruedas y a limitaciones inherentes en la estimación odométrica, descartando en gran medida errores acumulativos de sensores debido al corto intervalo de operación.
 
-Finalmente, se realizó una prueba de teleoperación mediante control por teclado. Durante esta etapa, se controló manualmente el robot, se observó nuevamente el comportamiento del tópico /odom y se analizaron los sensores cliff. Se evidenció que estos sensores detectaron la proximidad a bordes o desniveles en la superficie, permitiendo inferir condiciones de riesgo para el desplazamiento del robot.
+Finalmente, se realizó una prueba de teleoperación mediante control por teclado. Durante esta etapa, se controló manualmente el robot, se observó nuevamente el comportamiento del tópico `/odom` y se analizaron los sensores cliff. Se evidenció que estos sensores detectan si las ruedas presenta contacto con el suelo, determinando diferenes estados según las condiciones en las que pueden estar las ruedas.
 
 ### Solución planteada
 
