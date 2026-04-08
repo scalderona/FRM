@@ -25,7 +25,7 @@ uno de los topicos es el `/mobile_base/commands/velocity`, el cual nos permite p
 
 Como se puede observar el tipo de mensaje es `geometry_msg/Twist` el cual tiene la siguiente estructura : 
 `
-Vector3 linear
+Vector3 linear \\
 Vector3 angular
 `
 Un ejemplo del mensaje que se puede publicar a traves de este topico es : 
@@ -43,7 +43,7 @@ Finalmente se realizo una prueba con el topico `/mobile-base/events/cliff` el cu
 
 su tipo de mensaje publicado es `kobuki_msgs/CliffEvent` el cual tiene la siguiente documentacion :
 
-`
+```text
 # Provides a cliff sensor event.
 # This message is generated whenever a particular cliff sensor signals that the
 # robot approaches or moves away from a cliff.
@@ -64,7 +64,7 @@ uint8 state
 
 # distance to floor when cliff was detected
 uint16 bottom
-`
+```
 De manera que la variable sensor nos dice cual `sensor` activo el mensaje 0 si es el izquierdo, 1 si es el del centro y 2 si es el derecho, `state` nos dice si las ruedas se suspendieron, donde 0 nos dice que las ruedas siguen en el piso y 1 si hubo cliff o las ruedas quedaron suspendidas en el aire, por ultimo esta `bottom` que nos dice la distancia hasta el piso.
 
 ### Diagrama de Flujo
