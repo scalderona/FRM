@@ -1,4 +1,4 @@
-# Lab 3 FMR: El poder de ROS
+h# Lab 3 FMR: El poder de ROS
 ## Grupo de trabajo 2
 Johan Sebastian Suarez Sepulveda\
 Santiago Calderón Alarcón\
@@ -14,6 +14,58 @@ Posteriormente, se evaluó el comportamiento de la odometría, observando que, i
 Finalmente, se realizó una prueba de teleoperación mediante control por teclado. Durante esta etapa, se controló manualmente el robot, se observó nuevamente el comportamiento del tópico `/odom` y se analizaron los sensores cliff. Se evidenció que estos sensores detectan si las ruedas presenta contacto con el suelo, determinando diferenes estados según las condiciones en las que pueden estar las ruedas.
 
 ### Solución planteada
+
+los topicos presentes en el robot kobuki son los siguientes:
+
+<img width="901" height="862" alt="Captura de pantalla de 2026-03-11 17-27-46" src="https://github.com/user-attachments/assets/daeee78e-852a-44b9-8878-0af0d6979efc" />
+
+uno de los topicos es el `/mobile_base/commands/velocity`, el cual nos permite publicar una velocidad para el robot kobuki, el tipo de mensaje es el siguiente : 
+
+<img width="911" height="103" alt="Captura de pantalla de 2026-03-11 17-30-35" src="https://github.com/user-attachments/assets/a25b8e49-cb97-4c24-b0cb-2dbcb53bfcc0" />
+
+Como se puede observar el tipo de mensaje es geometry_msg/Twist el cual tiene la siguiente estructura : 
+
+Vector3 linear
+Vector3 angular
+
+Un ejemplo del mensaje que se puede publicar a traves de este topico es : 
+
+`rostopic pub /mobile_base/commands/velocity geometry_msgs/Twist "{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"`
+
+Eso publica una velocidad lineal de 0.1 m/s y velocidad angular 0.0.
+
+De forma simultánea, se monitoreó el tópico `/odom`  El mensaje publicado por el topico `/odom` es de la siguiente manera:
+<img width="933" height="768" alt="Captura de pantalla de 2026-03-11 17-33-00" src="https://github.com/user-attachments/assets/a2aaa9e8-4502-44fe-9d2a-3c3d970d22e4" />
+
+Finalmente se realizo una prueba con el topico `/mobile-base/events/cliff` el cual al escucharlo nos da la siguiente informacion:
+
+<img width="113" height="623" alt="Captura de pantalla de 2026-03-11 17-50-58" src="https://github.com/user-attachments/assets/ca5a88ae-717b-4659-ab3a-1157512f7c61" />
+
+su tipo de mensaje publicado es `kobuki_msgs/CliffEvent` el cual tiene la siguiente documentacion :
+
+`
+# Provides a cliff sensor event.
+# This message is generated whenever a particular cliff sensor signals that the
+# robot approaches or moves away from a cliff.
+# Note that, despite cliff field on SensorState messages, state field is not a
+# bitmask, but the new state of a single sensor.
+
+# cliff sensor
+uint8 LEFT   = 0
+uint8 CENTER = 1
+uint8 RIGHT  = 2
+
+# cliff sensor state
+uint8 FLOOR = 0
+uint8 CLIFF = 1
+
+uint8 sensor
+uint8 state
+
+# distance to floor when cliff was detected
+uint16 bottom
+`
+De manera que la variable sensor nos dice cual `sensor` activo el mensaje 0 si es el izquierdo, 1 si es el del centro y 2 si es el derecho, `state` nos dice si las ruedas se suspendieron, donde 0 nos dice que las ruedas siguen en el piso y 1 si hubo cliff o las ruedas quedaron suspendidas en el aire, por ultimo esta `bottom` que nos dice la distancia hasta el piso.
 
 ### Diagrama de Flujo
 
