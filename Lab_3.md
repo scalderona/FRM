@@ -37,7 +37,18 @@ En cuanto a la creación del nodo, este se implementó dentro de la clase `Figur
 
 Posteriormente, se definieron los parámetros configurables del sistema, incluyendo el largo y ancho de la trayectoria, la velocidad lineal y angular del robot, así como los tópicos de odometría y de publicación de comandos. Estos parámetros se gestionaron mediante el servidor de parámetros de ROS, lo que permitió ajustar el comportamiento del nodo de manera flexible sin necesidad de modificar el código fuente.
 
+Posteriormente, se definieron los parámetros configurables del sistema, incluyendo el largo y ancho de la trayectoria, la velocidad lineal y angular del robot, así como los tópicos de odometría y de publicación de comandos. Estos parámetros se gestionaron mediante el servidor de parámetros de ROS, lo que permitió modificar el comportamiento del nodo.
+
+A continuación, se implementaron el publicador y el suscriptor. El publicador se configuró sobre el tópico de comandos de velocidad, permitiendo enviar señales de control al robot, mientras que el suscriptor se estableció sobre el tópico de odometría, con el fin de recibir información en tiempo real sobre la posición y orientación del sistema.
+
+Seguidamente, se definieron las variables de estado del robot en el entorno, incluyendo su posición y orientación. Además, se inicializó la variable odom_ok = False, con el propósito de evitar el inicio del movimiento hasta confirmar la correcta recepción de datos de odometría. También se establecieron variables de referencia inicializadas en cero, utilizadas para medir desplazamientos y giros relativos durante la ejecución.
+
+Finalmente, se definió la secuencia de movimiento correspondiente a los lados de la trayectoria a recorrer, junto con las variables de control del estado del sistema y el índice del segmento actual. Adicionalmente, se implementó un mecanismo de apagado seguro del nodo, garantizando la detención del robot al finalizar la ejecución o ante una interrupción.
+
 ##### *Funciones de apoyo*
+
+La función `odom_callback(self, msg)` permite procesar la información recibida a través del suscriptor de odometría e incorporarla al estado interno del nodo. En ella, se extraen las componentes cartesianas de la posición del robot en el plano mediante `self.x = msg.pose.pose.position.x` y `self.y = msg.pose.pose.position.y`. Para la orientación, se obtiene el cuaternión asociado con `q = msg.pose.pose.orientation`, a partir del cual se construye el vector `quat = [q.x, q.y, q.z, q.w]` y se realiza la conversión a ángulos de Euler utilizando la función `euler_from_quaternion`, extrayendo específicamente el ángulo de yaw mediante `_, _, self.yaw = euler_from_quaternion(quat)`. Finalmente, se actualiza el estado del sistema estableciendo la variable `odom_ok = True`, indicando que la odometría ha sido recibida correctamente y que el nodo puede continuar con su ejecución. Adicionalmente, para ver
+
 ##### *Función de control*
 #### Diagrama de flujo comportamiento del robot
 #### Resultados obtenidos
