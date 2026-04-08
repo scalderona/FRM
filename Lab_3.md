@@ -35,6 +35,7 @@ Un ejemplo del mensaje que se puede publicar a traves de este topico es :
 Eso publica una velocidad lineal de 0.1 m/s y velocidad angular 0.0.
 
 De forma simultánea, se monitoreó el tópico `/odom`  El mensaje publicado por el topico `/odom` es de la siguiente manera:
+
 <img width="933" height="768" alt="Captura de pantalla de 2026-03-11 17-33-00" src="https://github.com/user-attachments/assets/a2aaa9e8-4502-44fe-9d2a-3c3d970d22e4" />
 
 Finalmente se realizo una prueba con el topico `/mobile-base/events/cliff` el cual al escucharlo nos da la siguiente informacion:
