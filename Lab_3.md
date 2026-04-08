@@ -111,6 +111,19 @@ Las funciones `fijar_ref_pos(self)` y `fijar_ref_yaw(self)` se encargan de fijar
 La función `esperar_enter(self)` se encarga de mostrar el mensaje “Presiona ENTER una sola vez para iniciar toda la figura…”, finalizando con la declaración de que espera que se presione enter `sys.stdin.readline()`.
 
 ##### *Función de control*
+
+La función principal de control se implementa en el método `run(self)`, el cual inicia definiendo una frecuencia de operación de 20 Hz mediante `rospy.Rate(20)`. Posteriormente, se muestra un mensaje indicando que el sistema se encuentra a la espera de la recepción de datos de odometría. Mientras la variable `odom_ok` no sea verdadera, el programa permanece en un bucle de espera controlado por `rate.sleep()`, evitando así que el robot inicie su movimiento sin contar con información válida de posición y orientación.
+
+Una vez se confirma la recepción de la odometría, se notifica en consola y se muestran las dimensiones de la trayectoria a ejecutar, correspondientes a un rectángulo de `largo` y `ancho`. A continuación, el programa espera la interacción del usuario mediante la función `esperar_enter()`, permitiendo iniciar el recorrido de forma controlada.
+
+Al comenzar la ejecución, se inicializa el índice del segmento actual `i_lado = 0`, se fija una referencia inicial de posición mediante `fijar_ref_pos()` y se establece el estado inicial como "AVANZAR". A partir de este punto, el control del movimiento se gestiona mediante una máquina de estados implementada en un ciclo `while`, con tres posibles estados: "AVANZAR", "GIRAR" y "FIN".
+
+En el estado "AVANZAR", se define como objetivo la longitud del segmento actual de la trayectoria, obtenida a partir del arreglo `self.lados`. Se calcula la distancia recorrida mediante la función `distancia_recorrida()`, y mientras esta sea menor que el objetivo, se envían comandos de velocidad lineal constante (`self.vel_lineal`) y velocidad angular nula mediante `publicar_vel(self.vel_lineal, 0.0)`. Una vez alcanzada la distancia objetivo, el robot se detiene utilizando `detener_robot()` y se introduce una pausa de 0.3 segundos con `rospy.sleep(0.3)`. Si el segmento actual corresponde al último lado de la figura, el estado cambia a "FIN"; de lo contrario, se fija una referencia angular con `fijar_ref_yaw()` y se transita al estado "GIRAR".
+
+En el estado "GIRAR", se evalúa el ángulo girado mediante la función `angulo_girado()`. Dado que la trayectoria corresponde a un rectángulo, el giro objetivo es de π/2 radianes. Mientras el ángulo girado sea menor a este valor, el robot rota sobre su eje enviando comandos con velocidad angular constante (`self.vel_angular`) y velocidad lineal nula mediante `publicar_vel(0.0, self.vel_angular)`. Al alcanzar el ángulo deseado, el robot se detiene, se incrementa el índice del lado (`self.i_lado += 1`), se actualiza la referencia de posición con `fijar_ref_pos()` y se retorna al estado "AVANZAR".
+
+Finalmente, en el estado "FIN", se detiene completamente el robot, se muestra un mensaje indicando la finalización de la trayectoria y se termina la ejecución del ciclo principal.
+
 #### Diagrama de flujo comportamiento del robot
 #### Resultados obtenidos
 #### Código fuente
