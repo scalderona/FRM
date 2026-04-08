@@ -20,7 +20,7 @@ Finalmente, se realizó una prueba de teleoperación mediante control por teclad
 ## Actividad 2
 El objetivo de la actividad fue desarrollar un nodo propio en ROS que permitiera controlar el movimiento del robot Kobuki a partir de la información de odometría. En particular, se buscó generar trayectorias geométricas en el entorno, logrando que el robot describiera figuras simples como cuadrados o rectángulos.
 
-Para ello, el nodo se implementó suscribiéndose al tópico /odom, con el fin de obtener en tiempo real la posición y orientación del robot. Adicionalmente, se configuró la publicación de comandos de velocidad en el tópico correspondiente al control del robot, permitiendo gobernar su desplazamiento.
+Para ello, el nodo se implementó suscribiéndose al tópico `/odom`, con el fin de obtener en tiempo real la posición y orientación del robot. Adicionalmente, se configuró la publicación de comandos de velocidad en el tópico correspondiente al control del robot, permitiendo gobernar su desplazamiento.
 
 A partir de la información de odometría, se estableció una lógica de control que permitió determinar cuándo el robot había recorrido la distancia requerida en cada segmento de la trayectoria y cuándo debía ejecutar giros para cambiar de dirección. De esta forma, se garantizó el seguimiento de la figura geométrica definida.
 
