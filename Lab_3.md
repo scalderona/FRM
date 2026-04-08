@@ -33,7 +33,9 @@ Inicialmente, se definió la cabecera del script en Python 3 y se importaron las
 
 En cuanto a ROS, se empleó rospy para la creación y gestión del nodo. El tipo de mensaje Odometry, proveniente de `nav_msgs.msg`, se utilizó para recibir la información de posición y orientación del robot. Por su parte, `Twist`, de `geometry_msgs.msg`, permitió la publicación de comandos de velocidad para el control del movimiento. Finalmente, la función `euler_from_quaternion`, del módulo `tf.transformations`, se utilizó para convertir la orientación del robot desde cuaterniones a ángulos de Euler, facilitando su interpretación y uso en el control.
 
+En cuanto a la creación del nodo, este se implementó dentro de la clase `FiguraKobuki`. La inicialización se realizó en el método `__init__`, mediante la instrucción `rospy.init_node("figura_kobuki")`, con la cual se registra el nodo dentro del ecosistema ROS.
 
+Posteriormente, se definieron los parámetros configurables del sistema, incluyendo el largo y ancho de la trayectoria, la velocidad lineal y angular del robot, así como los tópicos de odometría y de publicación de comandos. Estos parámetros se gestionaron mediante el servidor de parámetros de ROS, lo que permitió ajustar el comportamiento del nodo de manera flexible sin necesidad de modificar el código fuente.
 
 ##### *Funciones de apoyo*
 ##### *Función de control*
