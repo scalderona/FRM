@@ -27,7 +27,13 @@ A partir de la información de odometría, se estableció una lógica de control
 El programa fue diseñado para recibir como parámetros las dimensiones de la figura (por ejemplo, largo y ancho), lo que permitió generar trayectorias variables según los valores de entrada. Asimismo, se incorporó un mecanismo de interacción inicial, en el cual el nodo permanecía en espera hasta recibir una entrada del usuario antes de iniciar la ejecución de la trayectoria.
 
 En conjunto, la actividad permitió integrar la suscripción a datos sensoriales, la publicación de comandos de control y la implementación de una lógica de navegación basada en odometría, consolidando el desarrollo de un sistema básico de control de movimiento para el robot.
-
+### Programa
+#### Solución planteada
+##### *Funciones de apoyo*
+##### *Función de control*
+#### Diagrama de flujo comportamiento del robot
+#### Resultados obtenidos
+#### Código fuente
 
 
 Inicialización del nodo ROS, espera de la odometría y confirmación del usuario para iniciar la trayectoria.
