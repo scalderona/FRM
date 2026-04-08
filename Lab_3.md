@@ -11,7 +11,7 @@ Una vez iniciado el sistema, se exploraron los tópicos activos en ROS, identifi
 
 Posteriormente, se evaluó el comportamiento de la odometría, observando que, incluso en trayectorias rectilíneas, se registraron variaciones en las variables reportadas en `/odom`. Estas discrepancias se atribuyeron principalmente a posibles deslizamientos de las ruedas y a limitaciones inherentes en la estimación odométrica, descartando en gran medida errores acumulativos de sensores debido al corto intervalo de operación.
 
-Finalmente, se realizó una prueba de teleoperación mediante control por teclado. Durante esta etapa, se controló manualmente el robot, se observó nuevamente el comportamiento del tópico `/odom` y se analizaron los sensores cliff. Se evidenció que estos sensores detectan si las ruedas presenta contacto con el suelo, determinando diferenes estados según las condiciones en las que pueden estar las ruedas.
+Finalmente, se realizó una prueba de teleoperación mediante control por teclado. Durante esta etapa, se controló manualmente el robot, se observó nuevamente el comportamiento del tópico `/odom` y se analizaron los sensores cliff. Se evidenció que estos sensores detectan si las ruedas presenta contacto con el suelo, determinando diferentes estados según las condiciones en las que pueden estar las ruedas.
 
 ### Solución planteada
 
@@ -100,7 +100,15 @@ Finalmente, se definió la secuencia de movimiento correspondiente a los lados d
 
 ##### *Funciones de apoyo*
 
-La función `odom_callback(self, msg)` permite procesar la información recibida a través del suscriptor de odometría e incorporarla al estado interno del nodo. En ella, se extraen las componentes cartesianas de la posición del robot en el plano mediante `self.x = msg.pose.pose.position.x` y `self.y = msg.pose.pose.position.y`. Para la orientación, se obtiene el cuaternión asociado con `q = msg.pose.pose.orientation`, a partir del cual se construye el vector `quat = [q.x, q.y, q.z, q.w]` y se realiza la conversión a ángulos de Euler utilizando la función `euler_from_quaternion`, extrayendo específicamente el ángulo de yaw mediante `_, _, self.yaw = euler_from_quaternion(quat)`. Finalmente, se actualiza el estado del sistema estableciendo la variable `odom_ok = True`, indicando que la odometría ha sido recibida correctamente y que el nodo puede continuar con su ejecución. Adicionalmente, para ver
+La función `odom_callback(self, msg)` permite procesar la información recibida a través del suscriptor de odometría e incorporarla al estado interno del nodo. En ella, se extraen las componentes cartesianas de la posición del robot en el plano mediante `self.x = msg.pose.pose.position.x` y `self.y = msg.pose.pose.position.y`. Para la orientación, se obtiene el cuaternión asociado con `q = msg.pose.pose.orientation`, a partir del cual se construye el vector `quat = [q.x, q.y, q.z, q.w]` y se realiza la conversión a ángulos de Euler utilizando la función `euler_from_quaternion`, extrayendo específicamente el ángulo de yaw mediante `_, _, self.yaw = euler_from_quaternion(quat)`. Finalmente, se actualiza el estado del sistema estableciendo la variable `odom_ok = True`, indicando que la odometría ha sido recibida correctamente y que el nodo puede continuar con su ejecución. Adicionalmente, en la función se agrego `yaw_deg = math.degrees(self.yaw)` para poder visualizar los ángulos en grados. La función de visualización datos fue `rospy.loginfo_throttle(0.1, "x = %.3f m, y = %.3f m, yaw = %.3f rad (%.2f deg)", self.x, self.y, self.yaw, yaw_deg)`, donde la característica principal es que el 0.1 es cada cuantos segundos se publica el mensaje
+
+La función `publicar_vel(self, v, w)` se encarga de construir y enviar los comandos de velocidad al robot mediante el publicador. Para ello, se crea un mensaje de tipo `Twist`, en el cual la componente lineal se asigna a través de `msg.linear.x`, mientras que la componente angular se define mediante `msg.angular.z`. Finalmente, el mensaje es enviado al tópico correspondiente utilizando la instrucción `self.pub_cmd.publish(msg)`, permitiendo así el control del movimiento del robot. 
+
+La función detener_robot(self) se encarga de detener completamente el movimiento del robot mediante el envío repetido de comandos de velocidad nulos, utilizando la función publicar_vel(0.0, 0.0).
+
+Las funciones `fijar_ref_pos(self)` y `fijar_ref_yaw(self)` se encargan de fijar los valores de referencia para comparar según el recorrido que se este haciendo. Siendo que las funciones que implementan esos valores fijados son: `distancia_recorrida(self)` y `angulo_girado(self)`, donde  el primero determina la distancia con Pitagoras y el segundo con la diferencia entre los ángulos. Adicionalmente, la diferencia entre ángulos se normaliza [- π, π] y se saca el valor absoluto.
+
+La función `esperar_enter(self)` se encarga de mostrar el mensaje “Presiona ENTER una sola vez para iniciar toda la figura…”, finalizando con la declaración de que espera que se presione enter `sys.stdin.readline()`.
 
 ##### *Función de control*
 #### Diagrama de flujo comportamiento del robot
