@@ -29,6 +29,12 @@ El programa fue diseñado para recibir como parámetros las dimensiones de la fi
 En conjunto, la actividad permitió integrar la suscripción a datos sensoriales, la publicación de comandos de control y la implementación de una lógica de navegación basada en odometría, consolidando el desarrollo de un sistema básico de control de movimiento para el robot.
 ### Programa
 #### Solución planteada
+Inicialmente, se definió la cabecera del script en Python 3 y se importaron las librerías necesarias para la implementación del nodo en ROS. En Python, se utilizaron las librerías `sys`, para gestionar la entrada desde el teclado, y `math`, para emplear funciones matemáticas como la raíz cuadrada y el valor de π.
+
+En cuanto a ROS, se empleó rospy para la creación y gestión del nodo. El tipo de mensaje Odometry, proveniente de `nav_msgs.msg`, se utilizó para recibir la información de posición y orientación del robot. Por su parte, `Twist`, de `geometry_msgs.msg`, permitió la publicación de comandos de velocidad para el control del movimiento. Finalmente, la función `euler_from_quaternion`, del módulo `tf.transformations`, se utilizó para convertir la orientación del robot desde cuaterniones a ángulos de Euler, facilitando su interpretación y uso en el control.
+
+
+
 ##### *Funciones de apoyo*
 ##### *Función de control*
 #### Diagrama de flujo comportamiento del robot
