@@ -23,11 +23,11 @@ uno de los topicos es el `/mobile_base/commands/velocity`, el cual nos permite p
 
 <img width="911" height="103" alt="Captura de pantalla de 2026-03-11 17-30-35" src="https://github.com/user-attachments/assets/a25b8e49-cb97-4c24-b0cb-2dbcb53bfcc0" />
 
-Como se puede observar el tipo de mensaje es geometry_msg/Twist el cual tiene la siguiente estructura : 
-
+Como se puede observar el tipo de mensaje es `geometry_msg/Twist` el cual tiene la siguiente estructura : 
+`
 Vector3 linear
 Vector3 angular
-
+`
 Un ejemplo del mensaje que se puede publicar a traves de este topico es : 
 
 `rostopic pub /mobile_base/commands/velocity geometry_msgs/Twist "{linear: {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"`
