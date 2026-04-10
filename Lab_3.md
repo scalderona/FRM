@@ -125,27 +125,37 @@ En el estado "GIRAR", se evalúa el ángulo girado mediante la función `angulo_
 Finalmente, en el estado "FIN", se detiene completamente el robot, se muestra un mensaje indicando la finalización de la trayectoria y se termina la ejecución del ciclo principal.
 
 #### Diagrama de flujo comportamiento del robot
-#### Resultados obtenidos
-#### Código fuente
 
 
 Inicialización del nodo ROS, espera de la odometría y confirmación del usuario para iniciar la trayectoria.
-<img width="1770" height="151" alt="image" src="https://github.com/user-attachments/assets/85b379e3-a207-43a5-9526-86fb20bf31fb" />
+<img width="1588" height="212" alt="image" src="https://github.com/user-attachments/assets/ba04df05-addc-48a4-84a1-ce792787e2b6" />
+
 
 
 
 El robot avanza en línea recta mientras la distancia recorrida sea menor que la distancia objetivo del lado.
-<img width="1010" height="626" alt="image" src="https://github.com/user-attachments/assets/05672c14-fa24-4757-9879-111fba2eefc8" />
+<img width="1820" height="381" alt="image" src="https://github.com/user-attachments/assets/1a63f696-3f53-4ac9-9bc2-bc4595f545e6" />
+
 
 
 
 El sistema decide si continuar la trayectoria o realizar un giro de 90°, actualizando el estado del recorrido.
-<img width="480" height="495" alt="image" src="https://github.com/user-attachments/assets/997fbb57-46ab-4154-ab91-ac3ad443345e" />
+<img width="1522" height="241" alt="image" src="https://github.com/user-attachments/assets/b1ebe9e0-8546-48f6-9cb0-ff6cd4e8e0b9" />
 
-<img width="340" height="727" alt="image" src="https://github.com/user-attachments/assets/affe31da-d55e-4d96-b54e-4617c90f8b8a" />
+
+<img width="1522" height="723" alt="image" src="https://github.com/user-attachments/assets/972b74c5-e15f-49a4-af56-87da79cd4d67" />
+
 
 
 
 El robot finaliza la trayectoria, se detiene completamente y termina la ejecución del programa.
-<img width="1125" height="212" alt="image" src="https://github.com/user-attachments/assets/7386030f-d73f-436f-bd7c-631181f9ef62" />
+<img width="1790" height="552" alt="image" src="https://github.com/user-attachments/assets/05e6aee2-e463-42af-aa7d-85a0242cda7d" />
 
+
+<img width="1847" height="285" alt="image" src="https://github.com/user-attachments/assets/5872e36c-eb5d-44f2-8b2e-51128bb26409" />
+
+
+
+
+#### Resultados obtenidos
+#### Código fuente
