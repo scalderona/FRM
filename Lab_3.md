@@ -127,31 +127,31 @@ Finalmente, en el estado "FIN", se detiene completamente el robot, se muestra un
 #### Diagrama de flujo comportamiento del robot
 
 
-Inicialización del nodo ROS, espera de la odometría y confirmación del usuario para iniciar la trayectoria.
+Inicialización del nodo ROS y configuración de la suscripción a odometría y publicación de velocidad.
 <img width="1588" height="212" alt="image" src="https://github.com/user-attachments/assets/ba04df05-addc-48a4-84a1-ce792787e2b6" />
 
 
 
-
-El robot avanza en línea recta mientras la distancia recorrida sea menor que la distancia objetivo del lado.
+Espera hasta recibir datos de odometría y confirmación del usuario para iniciar el proceso.
 <img width="1820" height="381" alt="image" src="https://github.com/user-attachments/assets/1a63f696-3f53-4ac9-9bc2-bc4595f545e6" />
 
 
 
-
-El sistema decide si continuar la trayectoria o realizar un giro de 90°, actualizando el estado del recorrido.
+Definición de la posición inicial, inicialización del contador de lados y establecimiento del estado en AVANZAR.
 <img width="1522" height="241" alt="image" src="https://github.com/user-attachments/assets/b1ebe9e0-8546-48f6-9cb0-ff6cd4e8e0b9" />
 
 
+El robot avanza hasta alcanzar la distancia objetivo correspondiente a un lado del rectángulo.
 <img width="1522" height="723" alt="image" src="https://github.com/user-attachments/assets/972b74c5-e15f-49a4-af56-87da79cd4d67" />
 
 
 
-
-El robot finaliza la trayectoria, se detiene completamente y termina la ejecución del programa.
+Verificación de si el robot ha completado el último lado para decidir si continúa o finaliza.
 <img width="1790" height="552" alt="image" src="https://github.com/user-attachments/assets/05e6aee2-e463-42af-aa7d-85a0242cda7d" />
 
 
+
+Ejecución del giro de 90°, actualización del contador de lados y preparación para el siguiente movimiento.
 <img width="1847" height="285" alt="image" src="https://github.com/user-attachments/assets/5872e36c-eb5d-44f2-8b2e-51128bb26409" />
 
 
