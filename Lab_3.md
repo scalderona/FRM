@@ -13,6 +13,12 @@ Posteriormente, se evaluó el comportamiento de la odometría, observando que, i
 
 Finalmente, se realizó una prueba de teleoperación mediante control por teclado. Durante esta etapa, se controló manualmente el robot, se observó nuevamente el comportamiento del tópico `/odom` y se analizaron los sensores cliff. Se evidenció que estos sensores detectan si las ruedas presenta contacto con el suelo, determinando diferentes estados según las condiciones en las que pueden estar las ruedas.
 
+Los sensores que utiliza Kobuki para estimular su odometría son encoders en las ruedas.
+
+La odometría puede presentar errores por factores como el deslizamiento de ruedas, irregularidades en el suelo, diferencias de velocidad real en cada rueda o imprecisiones en los encoders. Estos factores provocan desviaciones acumulativas en la estimación de su posición y orientiación.
+
+Los sensores cliff detectan cambios bruscos en la superficie, como bordes o huecos (por ejemplo, escaleras), mediante sensores infrarrojos. Su función es evitar que el robot caiga o sufra daños, deteniendo o modificando su movimiento cuando detectan un peligro.
+
 ### Solución planteada
 
 los topicos presentes en el robot kobuki son los siguientes:
