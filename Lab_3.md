@@ -13,7 +13,7 @@ Posteriormente, se evaluó el comportamiento de la odometría, observando que, i
 
 Finalmente, se realizó una prueba de teleoperación mediante control por teclado. Durante esta etapa, se controló manualmente el robot, se observó nuevamente el comportamiento del tópico `/odom` y se analizaron los sensores cliff. Se evidenció que estos sensores detectan si las ruedas presenta contacto con el suelo, determinando diferentes estados según las condiciones en las que pueden estar las ruedas.
 
-Los sensores que utiliza Kobuki para estimular su odometría son encoders en las ruedas.
+Kobuki utiliza dos sensores para estimar su odometría de forma precisa: encoders ubicados en las ruedas para medir la rotación y calcular la distancia recorrida. El sistema calcula la posición (x, y) y la orientación (θ) del robot mediante su modelo de movimiento diferencial. También un giroscopio MEMS de 1 eje integrado para medir la orientación angular.
 
 La odometría puede presentar errores por factores como el deslizamiento de ruedas, irregularidades en el suelo, diferencias de velocidad real en cada rueda o imprecisiones en los encoders. Estos factores provocan desviaciones acumulativas en la estimación de su posición y orientiación.
 
