@@ -165,3 +165,169 @@ Ejecución del giro de 90°, actualización del contador de lados y preparación
 
 #### Resultados obtenidos
 #### Código fuente
+```
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import sys
+import math
+import rospy
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Twist
+from tf.transformations import euler_from_quaternion
+
+
+class FiguraKobuki:
+
+    def __init__(self):
+        rospy.init_node("figura_kobuki")
+
+        # Parámetros
+        self.largo = rospy.get_param("~largo", 1.0)
+        self.ancho = rospy.get_param("~ancho", 1.0)
+        self.vel_lineal = rospy.get_param("~vel_lineal", 0.10)
+        self.vel_angular = rospy.get_param("~vel_angular", 0.35)
+        self.odom_topic = rospy.get_param("~odom_topic", "/odom")
+        self.cmd_topic = rospy.get_param("~cmd_topic", "/mobile_base/commands/velocity")
+
+        # Publicador y suscriptor
+        self.pub_cmd = rospy.Publisher(self.cmd_topic, Twist, queue_size=10)
+        self.sub_odom = rospy.Subscriber(self.odom_topic, Odometry, self.odom_callback)
+
+        # Estado actual del robot
+        self.x = 0.0
+        self.y = 0.0
+        self.yaw = 0.0
+        self.odom_ok = False
+
+        # Referencias para medir avance y giro
+        self.x_ref = 0.0
+        self.y_ref = 0.0
+        self.yaw_ref = 0.0
+
+        # Secuencia del rectángulo
+        self.lados = [self.largo, self.ancho, self.largo, self.ancho]
+        self.estado = "ESPERAR"
+        self.i_lado = 0
+
+        rospy.on_shutdown(self.detener_robot)
+
+    def odom_callback(self, msg):
+        self.x = msg.pose.pose.position.x
+        self.y = msg.pose.pose.position.y
+
+        q = msg.pose.pose.orientation
+        quat = [q.x, q.y, q.z, q.w]
+        _, _, self.yaw = euler_from_quaternion(quat)
+
+        self.odom_ok = True
+
+        yaw_deg = math.degrees(self.yaw)
+        
+        rospy.loginfo_throttle(
+            0.1,
+            "x = %.3f m, y = %.3f m, yaw = %.3f rad (%.2f deg)",
+            self.x, self.y, self.yaw, yaw_deg
+        )
+
+
+    def publicar_vel(self, v, w):
+        msg = Twist()
+        msg.linear.x = v
+        msg.angular.z = w
+        self.pub_cmd.publish(msg)
+
+    def detener_robot(self):
+        for _ in range(5):
+            self.publicar_vel(0.0, 0.0)
+            rospy.sleep(0.05)
+
+    def fijar_ref_pos(self):
+        self.x_ref = self.x
+        self.y_ref = self.y
+
+    def fijar_ref_yaw(self):
+        self.yaw_ref = self.yaw
+
+    def distancia_recorrida(self):
+        return math.sqrt((self.x - self.x_ref) ** 2 + (self.y - self.y_ref) ** 2)
+
+    def normalizar_angulo(self, ang):
+        while ang > math.pi:
+            ang -= 2.0 * math.pi
+        while ang < -math.pi:
+            ang += 2.0 * math.pi
+        return ang
+
+    def angulo_girado(self):
+        return abs(self.normalizar_angulo(self.yaw - self.yaw_ref))
+
+    def esperar_enter(self):
+        print("\nPresiona ENTER una sola vez para iniciar toda la figura...")
+        sys.stdin.readline()
+
+    def run(self):
+        rate = rospy.Rate(20)
+
+        print("Esperando odometría en:", self.odom_topic)
+        while not rospy.is_shutdown() and not self.odom_ok:
+            rate.sleep()
+
+        print("Odometría recibida correctamente.")
+        print("Figura a recorrer: rectángulo")
+        print("Largo =", self.largo, "m")
+        print("Ancho =", self.ancho, "m")
+
+        # Un solo Enter y arranca toda la figura
+        self.esperar_enter()
+
+        self.i_lado = 0
+        self.fijar_ref_pos()
+        self.estado = "AVANZAR"
+
+        while not rospy.is_shutdown():
+
+            if self.estado == "AVANZAR":
+                objetivo = self.lados[self.i_lado]
+                d = self.distancia_recorrida()
+
+                if d < objetivo:
+                    self.publicar_vel(self.vel_lineal, 0.0)
+                else:
+                    self.detener_robot()
+                    rospy.sleep(0.3)
+
+                    # Si ya terminó el último lado, finaliza
+                    if self.i_lado == len(self.lados) - 1:
+                        self.estado = "FIN"
+                    else:
+                        self.fijar_ref_yaw()
+                        self.estado = "GIRAR"
+
+            elif self.estado == "GIRAR":
+                ang = self.angulo_girado()
+
+                if ang < math.pi / 2.0:
+                    self.publicar_vel(0.0, self.vel_angular)
+                else:
+                    self.detener_robot()
+                    rospy.sleep(0.3)
+                    self.i_lado += 1
+                    self.fijar_ref_pos()
+                    self.estado = "AVANZAR"
+
+            elif self.estado == "FIN":
+                self.detener_robot()
+                print("Figura completada.")
+                break
+
+            rate.sleep()
+
+
+if __name__ == "__main__":
+    try:
+        nodo = FiguraKobuki()
+        nodo.run()
+    except rospy.ROSInterruptException:
+        pass
+```
