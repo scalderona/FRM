@@ -76,6 +76,33 @@ De manera que la variable sensor nos dice cual `sensor` activo el mensaje 0 si e
 
 ### Diagrama de Flujo
 
+Inicialización del nodo ROS y configuración de la suscripción a odometría y publicación de velocidad.
+<img width="1588" height="212" alt="image" src="https://github.com/user-attachments/assets/ba04df05-addc-48a4-84a1-ce792787e2b6" />
+
+
+
+Espera hasta recibir datos de odometría y confirmación del usuario para iniciar el proceso.
+<img width="1820" height="381" alt="image" src="https://github.com/user-attachments/assets/1a63f696-3f53-4ac9-9bc2-bc4595f545e6" />
+
+
+
+Definición de la posición inicial, inicialización del contador de lados y establecimiento del estado en AVANZAR.
+<img width="1522" height="241" alt="image" src="https://github.com/user-attachments/assets/b1ebe9e0-8546-48f6-9cb0-ff6cd4e8e0b9" />
+
+
+El robot avanza hasta alcanzar la distancia objetivo correspondiente a un lado del rectángulo.
+<img width="1522" height="723" alt="image" src="https://github.com/user-attachments/assets/972b74c5-e15f-49a4-af56-87da79cd4d67" />
+
+
+
+Verificación de si el robot ha completado el último lado para decidir si continúa o finaliza.
+<img width="1790" height="552" alt="image" src="https://github.com/user-attachments/assets/05e6aee2-e463-42af-aa7d-85a0242cda7d" />
+
+
+
+Ejecución del giro de 90°, actualización del contador de lados y preparación para el siguiente movimiento.
+<img width="1847" height="285" alt="image" src="https://github.com/user-attachments/assets/5872e36c-eb5d-44f2-8b2e-51128bb26409" />
+
 ## Actividad 2
 El objetivo de la actividad fue desarrollar un nodo propio en ROS que permitiera controlar el movimiento del robot Kobuki a partir de la información de odometría. En particular, se buscó generar trayectorias geométricas en el entorno, logrando que el robot describiera figuras simples como cuadrados o rectángulos.
 
@@ -129,38 +156,6 @@ En el estado "AVANZAR", se define como objetivo la longitud del segmento actual 
 En el estado "GIRAR", se evalúa el ángulo girado mediante la función `angulo_girado()`. Dado que la trayectoria corresponde a un rectángulo, el giro objetivo es de π/2 radianes. Mientras el ángulo girado sea menor a este valor, el robot rota sobre su eje enviando comandos con velocidad angular constante (`self.vel_angular`) y velocidad lineal nula mediante `publicar_vel(0.0, self.vel_angular)`. Al alcanzar el ángulo deseado, el robot se detiene, se incrementa el índice del lado (`self.i_lado += 1`), se actualiza la referencia de posición con `fijar_ref_pos()` y se retorna al estado "AVANZAR".
 
 Finalmente, en el estado "FIN", se detiene completamente el robot, se muestra un mensaje indicando la finalización de la trayectoria y se termina la ejecución del ciclo principal.
-
-#### Diagrama de flujo comportamiento del robot
-
-
-Inicialización del nodo ROS y configuración de la suscripción a odometría y publicación de velocidad.
-<img width="1588" height="212" alt="image" src="https://github.com/user-attachments/assets/ba04df05-addc-48a4-84a1-ce792787e2b6" />
-
-
-
-Espera hasta recibir datos de odometría y confirmación del usuario para iniciar el proceso.
-<img width="1820" height="381" alt="image" src="https://github.com/user-attachments/assets/1a63f696-3f53-4ac9-9bc2-bc4595f545e6" />
-
-
-
-Definición de la posición inicial, inicialización del contador de lados y establecimiento del estado en AVANZAR.
-<img width="1522" height="241" alt="image" src="https://github.com/user-attachments/assets/b1ebe9e0-8546-48f6-9cb0-ff6cd4e8e0b9" />
-
-
-El robot avanza hasta alcanzar la distancia objetivo correspondiente a un lado del rectángulo.
-<img width="1522" height="723" alt="image" src="https://github.com/user-attachments/assets/972b74c5-e15f-49a4-af56-87da79cd4d67" />
-
-
-
-Verificación de si el robot ha completado el último lado para decidir si continúa o finaliza.
-<img width="1790" height="552" alt="image" src="https://github.com/user-attachments/assets/05e6aee2-e463-42af-aa7d-85a0242cda7d" />
-
-
-
-Ejecución del giro de 90°, actualización del contador de lados y preparación para el siguiente movimiento.
-<img width="1847" height="285" alt="image" src="https://github.com/user-attachments/assets/5872e36c-eb5d-44f2-8b2e-51128bb26409" />
-
-
 
 
 #### Resultados obtenidos
