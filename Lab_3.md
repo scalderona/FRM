@@ -164,6 +164,17 @@ Ejecución del giro de 90°, actualización del contador de lados y preparación
 
 
 #### Resultados obtenidos
+
+A continuacion se ve el robot kobuki generando la trayectoria cuadrada
+
+
+
+
+
+
+
+
+
 #### Código fuente
 ```
 #!/usr/bin/env python3
