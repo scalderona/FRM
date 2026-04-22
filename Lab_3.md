@@ -1,4 +1,4 @@
-h# Lab 3 FMR: El poder de ROS
+# Lab 3 FMR: El poder de ROS
 ## Grupo de trabajo 2
 Johan Sebastian Suarez Sepulveda\
 Santiago Calderón Alarcón\
