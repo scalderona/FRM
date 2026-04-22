@@ -167,7 +167,7 @@ Ejecución del giro de 90°, actualización del contador de lados y preparación
 
 A continuacion se ve el robot kobuki generando la trayectoria cuadrada
 
-
+[▶ Ver demo] (https://github.com/scalderona/FRM/blob/main/Varios/WhatsApp%20Video%202026-04-21%20at%208.01.06%20PM.mp4)
 
 
 
