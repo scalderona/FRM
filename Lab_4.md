@@ -10,6 +10,7 @@ El objetivo de esta actividad fue implementar la conexión de un sensor serial m
 Debido a que el sensor seleccionado fue una Unidad de Medición Inercial (IMU), el patrón de comparación correspondió a los valores de yaw proporcionados por la IMU del robot Kobuki, obtenidos a partir de la ejecución de movimientos programados en el robot.
 
 ### Solución planteada
+Se realizó la instalación de la libreria `rosserial` ya que este permite la comunicación entre el Arduino y el entorno ROS
 
 #### Análisis de Mensajes
 #### Resultados obtenidos
