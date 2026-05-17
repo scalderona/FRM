@@ -250,6 +250,9 @@ if __name__ == "__main__":
 ```
 ##### Captura de pantalla con la imagen de la cámara
 
+<img width="1812" height="1036" alt="Captura de pantalla de 2026-04-22 16-46-39" src="https://github.com/user-attachments/assets/9fb94f72-96ad-436e-80bf-574d4036923c" />
+
+
 ## Actividad 3
 El objetivo de esta actividad fue realizar el reconocimiento y la adquisición de datos del sensor RPLIDAR C1 mediante el paquete `rplidar_ros`. Para ello, se descargó y configuró la librería correspondiente en el workspace de ROS y posteriormente se ejecutó el nodo del sensor mediante el comando `roslaunch rplidar_ros rplidar_c1.launch`.
 
