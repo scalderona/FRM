@@ -181,7 +181,80 @@ void loop() {
 En esta actividad se integró una cámara web al workspace de ROS siguiendo el procedimiento descrito en la guía suministrada. Una vez configurado el dispositivo, se verificó su funcionamiento mediante la herramienta `rqt`, permitiendo visualizar la imagen capturada y validar su correcta incorporación al ecosistema ROS.
 
 ### Solución planteada
+
+Para la implementación de la cámara web se utilizó el tópico `/usb_cam/image_raw`, el cual permitió recibir la información visual capturada por el dispositivo dentro del ecosistema ROS. A partir de este tópico, se desarrolló un nodo en Python llamado `image_detector.py`, encargado de suscribirse a la imagen publicada por la cámara y procesarla mediante OpenCV.
+
+El nodo empleó la librería `cv_bridge` para convertir los mensajes de imagen de ROS al formato compatible con OpenCV. De esta manera, cada frame recibido desde la cámara pudo ser procesado para realizar operaciones básicas de visión artificial, como conversión a escala de grises, umbralización, detección de contornos y detección de movimiento mediante sustracción de fondo.
+
+El nodo se inicializó de la siguiente manera:
+
+```python
+rospy.init_node('image_detector', anonymous=True)
+self.bridge = CvBridge()
+rospy.Subscriber("/usb_cam/image_raw", Image, self.callback)
+```
+
 #### Análisis de Mensajes
+
+El tópico utilizado para recibir la información de la cámara fue `/usb_cam/image_raw`. Este tópico publica mensajes de tipo `sensor_msgs/Image`, los cuales contienen la información visual capturada por la cámara web.
+
+```python
+from sensor_msgs.msg import Image
+```
+
+El nodo se suscribió al tópico de imagen mediante la siguiente instrucción:
+
+```python
+rospy.Subscriber("/usb_cam/image_raw", Image, self.callback)
+```
+
+Cada vez que se recibe un mensaje, este es procesado dentro de la función `callback()`. Debido a que ROS maneja la imagen como un mensaje de tipo `sensor_msgs/Image`, fue necesario convertirlo a un formato compatible con OpenCV mediante `cv_bridge`:
+
+```python
+frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+```
+
+Una vez realizada la conversión, la imagen fue transformada a escala de grises y posteriormente segmentada mediante un umbral. Esto permitió identificar los contornos presentes en la imagen:
+
+```python
+gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+_, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+```
+
+Luego, los contornos detectados fueron dibujados sobre la imagen original para facilitar su visualización:
+
+```python
+frame_contours = frame.copy()
+cv2.drawContours(frame_contours, contours, -1, (0, 255, 0), 2)
+```
+
+Adicionalmente, se implementó un sustractor de fondo para detectar movimiento en la escena. Esta herramienta permitió generar una máscara que resalta los cambios entre cuadros consecutivos:
+
+```python
+self.back_sub = cv2.createBackgroundSubtractorMOG2(
+    history=100,
+    varThreshold=50,
+    detectShadows=True
+)
+```
+
+La máscara de movimiento fue procesada mediante una operación morfológica de apertura, con el fin de reducir ruido en la imagen:
+
+```python
+fg_mask = self.back_sub.apply(frame)
+kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
+```
+
+Finalmente, los resultados fueron visualizados mediante ventanas de OpenCV:
+
+```python
+cv2.imshow("Contornos en Imagen", frame_contours)
+cv2.imshow("Máscara de Movimiento", fg_mask)
+cv2.waitKey(1)
+```
+
 #### Resultados obtenidos
 
 ## Actividad 3
