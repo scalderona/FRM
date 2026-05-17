@@ -334,9 +334,165 @@ al abrir el visualizador rviz estos son los datos suministrados por el lidar.
 Una vez completada la configuración del RPLIDAR C1, se construyó un laberinto como entorno controlado para contrastar las mediciones generadas por el sensor con las dimensiones reales del escenario. Para ello, se ubicó un elemento de referencia dentro del laberinto, se extrajeron los datos crudos del LIDAR y se transformaron a coordenadas cartesianas para su posterior análisis y comparación con las medidas reales.
 
 ### Solución planteada
+
+En esta actividad se utilizó el sensor RPLIDAR C1 dentro de un laberinto construido. El objetivo fue capturar las mediciones generadas por el sensor, representar el entorno detectado y contrastar dichas mediciones con una tabla de medidas conocidas del escenario.
+
+La solución consistió en implementar un nodo en Python llamado `lidar_cartesian_plot.py`, el cual se suscribe al tópico `/scan` publicado por el RPLIDAR. A partir de este tópico se obtienen los datos crudos del escáner, expresados como distancias y ángulos. Posteriormente, estos datos son filtrados para conservar únicamente las mediciones válidas y se transforman de coordenadas polares a coordenadas cartesianas.
+
+La transformación utilizada fue:
+
+```math
+x = r \cos(\theta)
+```
+
+```math
+y = r \sin(\theta)
+```
+
+donde `r` corresponde a la distancia medida por el LIDAR y `θ` al ángulo asociado a cada lectura. Esta conversión permitió representar los puntos detectados por el sensor en un plano cartesiano.
+
+Adicionalmente, los puntos transformados fueron guardados en formato `.csv`, lo cual permitió realizar un análisis posterior de las mediciones. A partir de estos datos se aplicó un agrupamiento espacial para identificar el elemento de referencia dentro del laberinto y estimar su longitud, comparando posteriormente el valor obtenido con la medida real registrada en la tabla del entorno.
+
 #### Análisis de Mensajes
+
+El nodo implementado se suscribe al tópico `/scan`, el cual publica mensajes de tipo `sensor_msgs/LaserScan`. Este tipo de mensaje contiene la información necesaria para describir un barrido del LIDAR, incluyendo las distancias medidas, el ángulo inicial, el incremento angular entre mediciones y los rangos mínimo y máximo válidos del sensor.
+
+```python
+from sensor_msgs.msg import LaserScan
+```
+
+La suscripción al tópico se realizó mediante la siguiente instrucción:
+
+```python
+rospy.Subscriber('/scan', LaserScan, callback)
+```
+
+Dentro de la función `callback()`, se extrajeron las distancias medidas por el LIDAR mediante el campo `ranges` del mensaje:
+
+```python
+ranges = np.array(msg.ranges, dtype=np.float64)
+```
+
+Posteriormente, se calcularon los ángulos correspondientes a cada medición usando `angle_min` y `angle_increment`:
+
+```python
+angles = msg.angle_min + np.arange(len(ranges)) * msg.angle_increment
+```
+
+Antes de transformar los datos, se aplicó un filtro para conservar únicamente las mediciones válidas. Para ello, se verificó que las distancias fueran finitas y que estuvieran dentro del rango mínimo y máximo permitido por el sensor:
+
+```python
+valid = np.isfinite(ranges)
+valid &= (ranges >= msg.range_min)
+valid &= (ranges <= msg.range_max)
+```
+
+Finalmente, las mediciones válidas fueron transformadas a coordenadas cartesianas:
+
+```python
+x_data = ranges * np.cos(angles)
+y_data = ranges * np.sin(angles)
+```
+
 #### Resultados obtenidos
-#### Código fuente
+
+##### Código fuente
+
+```python
+#!/usr/bin/env python3
+
+import rospy
+from sensor_msgs.msg import LaserScan
+import numpy as np
+import matplotlib.pyplot as plt
+import os
+from datetime import datetime
+
+x_data = np.array([])
+y_data = np.array([])
+
+def callback(msg):
+    global x_data, y_data
+
+    ranges = np.array(msg.ranges, dtype=np.float64)
+    angles = msg.angle_min + np.arange(len(ranges)) * msg.angle_increment
+
+    valid = np.isfinite(ranges)
+    valid &= (ranges >= msg.range_min)
+    valid &= (ranges <= msg.range_max)
+
+    ranges = ranges[valid]
+    angles = angles[valid]
+
+    x_data = ranges * np.cos(angles)
+    y_data = ranges * np.sin(angles)
+
+def save_points():
+    global x_data, y_data
+
+    if len(x_data) == 0:
+        rospy.logwarn("No hay puntos para guardar.")
+        return
+
+    save_dir = os.path.expanduser("~/catkin_ws/src/lidar_processing/data")
+    os.makedirs(save_dir, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = os.path.join(save_dir, f"scan_points_{timestamp}.csv")
+
+    points = np.column_stack((x_data, y_data))
+    np.savetxt(filename, points, delimiter=",", header="x,y", comments="")
+
+    rospy.loginfo("Puntos guardados en: %s", filename)
+    print(f"\nPuntos guardados en: {filename}")
+
+def on_key(event):
+    if event.key == 'g':
+        save_points()
+
+def main():
+    global x_data, y_data
+
+    rospy.init_node('lidar_join_points_save')
+    rospy.Subscriber('/scan', LaserScan, callback)
+
+    plt.ion()
+    fig, ax = plt.subplots(figsize=(8, 8))
+    fig.canvas.mpl_connect('key_press_event', on_key)
+
+    print("\nPresiona 'g' sobre la ventana de la gráfica para guardar los puntos actuales en CSV.\n")
+
+    rate = rospy.Rate(10)
+    while not rospy.is_shutdown():
+        ax.clear()
+
+        if len(x_data) > 0:
+            ax.scatter(x_data, y_data, s=10)
+            ax.plot(x_data, y_data, linewidth=1.5)
+
+        ax.scatter([0], [0], s=80, marker='x')
+        ax.set_title("LIDAR uniendo puntos  |  Presiona 'g' para guardar CSV")
+        ax.set_xlabel("x [m]")
+        ax.set_ylabel("y [m]")
+        ax.axis('equal')
+        ax.grid(True)
+        ax.set_xlim(-1.5, 1.5)
+        ax.set_ylim(-1.5, 1.5)
+
+        plt.pause(0.01)
+        rate.sleep()
+
+    plt.close('all')
+
+if __name__ == '__main__':
+    try:
+        main()
+    except rospy.ROSInterruptException:
+        pass
+```
+##### Grafico obtenido y comparación de distancia
+
+
 
 ## Actividad 5
 Una vez completada la configuración del RPLIDAR C1 y realizada la investigación sobre el paquete `hector_slam`, se construyó un nuevo laberinto para implementar el proceso de mapeo del entorno en ROS. Esta actividad permitió analizar el funcionamiento del paquete, su uso de la información del LIDAR y la generación de un mapa del escenario de prueba.
