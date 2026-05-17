@@ -106,6 +106,79 @@ De acuerdo con las variables leídas y procesadas en el código, la información
 | `roll` | Ángulo de inclinación respecto al eje longitudinal | grados |
 | `pitch` | Ángulo de inclinación respecto al eje lateral | grados |
 
+#### Resultados obtenidos
+
+```cpp
+#include <Wire.h>
+
+const int MPU_ADDR = 0x68;  // Dirección I2C del MPU6050
+
+int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+
+  // Despertar el MPU6050 (sale del modo sleep)
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x6B);   // Registro PWR_MGMT_1
+  Wire.write(0);      // Escribe 0 para despertarlo
+  Wire.endTransmission(true);
+
+  Serial.println("MPU6050 iniciado correctamente");
+}
+
+void loop() {
+  // Leer 14 bytes seguidos desde ACCEL_XOUT_H
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x3B);
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU_ADDR, 14, true);
+
+  AcX = Wire.read() << 8 | Wire.read();
+  AcY = Wire.read() << 8 | Wire.read();
+  AcZ = Wire.read() << 8 | Wire.read();
+  Tmp = Wire.read() << 8 | Wire.read();
+  GyX = Wire.read() << 8 | Wire.read();
+  GyY = Wire.read() << 8 | Wire.read();
+  GyZ = Wire.read() << 8 | Wire.read();
+
+  // Conversión a unidades físicas
+  // Acelerómetro en g (configuración por defecto: ±2g)
+  float ax = AcX / 16384.0;
+  float ay = AcY / 16384.0;
+  float az = AcZ / 16384.0;
+
+  // Giroscopio en °/s (configuración por defecto: ±250 °/s)
+  float gx = GyX / 131.0;
+  float gy = GyY / 131.0;
+  float gz = GyZ / 131.0;
+
+  // Temperatura aproximada
+  float temperatura = Tmp / 340.0 + 36.53;
+
+  // Cálculo aproximado de ángulos usando acelerómetro
+  float roll  = atan2(ay, az) * 180.0 / PI;
+  float pitch = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / PI;
+
+  Serial.print("Ax: "); Serial.println(ax, 3);
+  //Serial.print(" g\tAy: "); Serial.print(ay, 3);
+  //Serial.print(" g\tAz: "); Serial.print(az, 3);
+
+ // Serial.print("\tGx: "); Serial.print(gx, 2);
+  //Serial.print(" °/s\tGy: "); Serial.print(gy, 2);
+  //Serial.print(" °/s\tGz: "); Serial.print(gz, 2);
+
+  //Serial.print(" °/s\tRoll: "); Serial.print(roll, 2);
+  //Serial.print(" °\tPitch: "); Serial.print(pitch, 2);
+
+  //Serial.print(" °\tTemp: "); Serial.print(temperatura, 2);
+  //Serial.println(" °C");
+
+  delay(200);
+}
+```
+
 ## Actividad 2
 En esta actividad se integró una cámara web al workspace de ROS siguiendo el procedimiento descrito en la guía suministrada. Una vez configurado el dispositivo, se verificó su funcionamiento mediante la herramienta `rqt`, permitiendo visualizar la imagen capturada y validar su correcta incorporación al ecosistema ROS.
 
