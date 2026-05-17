@@ -272,7 +272,7 @@ o, si se desea visualizar la información en RViz:
 roslaunch rplidar_ros view_rplidar_c1.launch
 ```
 
-## 1. Nodos involucrados
+## 3.1. Nodos involucrados
 
 El paquete `rplidar_ros` incluye principalmente los siguientes ejecutables:
 
@@ -286,7 +286,7 @@ El paquete `rplidar_ros` incluye principalmente los siguientes ejecutables:
 
 ---
 
-## 2. Tópico principal del sensor
+## 3.2. Tópico principal del sensor
 
 ### `/scan`
 
@@ -295,7 +295,7 @@ El paquete `rplidar_ros` incluye principalmente los siguientes ejecutables:
 
 ---
 
-## 3. Información contenida en el mensaje `sensor_msgs/LaserScan`
+## 3.3. Información contenida en el mensaje `sensor_msgs/LaserScan`
 
 El mensaje `sensor_msgs/LaserScan` contiene, entre otros, los siguientes campos:
 
@@ -312,7 +312,7 @@ El mensaje `sensor_msgs/LaserScan` contiene, entre otros, los siguientes campos:
 
 ---
 
-## 4. Interpretación del tópico `/scan`
+## 3.4. Interpretación del tópico `/scan`
 
 La información publicada en `/scan` representa una nube angular de distancias en un plano 2D. Este tópico puede utilizarse posteriormente para tareas como:
 
@@ -507,9 +507,7 @@ Una vez completada la configuración del RPLIDAR C1 y realizada la investigació
 
 ### Solución planteada
 
-### Solución planteada
-
-Para esta actividad se utilizó el paquete `hector_slam`, específicamente el nodo `hector_mapping`, con el propósito de generar un mapa del laberinto construido a partir de la información suministrada por el RPLIDAR C1.
+Para esta actividad se utilizó el paquete `hector_slam`, específicamente el nodo `hector_mapping`, con el propósito de generar un mapa del laberinto a partir de la información suministrada por el RPLIDAR C1.
 
 La solución consistió en configurar un archivo tipo `launch` llamado `mapping_default.launch`, encargado de iniciar el nodo de mapeo y definir los parámetros necesarios para la generación del mapa. Este nodo recibe la información del sensor LIDAR a través del tópico `/scan`, el cual contiene los datos del barrido láser del entorno.
 
@@ -528,5 +526,90 @@ El nodo principal se ejecutó mediante la siguiente configuración:
 ```
 
 #### Análisis de Mensajes
+
+El proceso de mapeo se basó en la información publicada por el RPLIDAR C1 en el tópico `/scan`. Este tópico transmite mensajes de tipo `sensor_msgs/LaserScan`, los cuales contienen las distancias medidas por el sensor durante cada barrido, junto con la información angular necesaria para ubicar cada punto en el espacio.
+
+En el archivo `mapping_default.launch`, el tópico de entrada para el nodo `hector_mapping` se definió mediante el argumento:
+
+```xml
+<arg name="scan_topic" default="scan"/>
+```
+
+y posteriormente se asignó al parámetro correspondiente del nodo:
+
+```xml
+<param name="scan_topic" value="$(arg scan_topic)"/>
+```
+
+El nodo `hector_mapping` utiliza estos mensajes para comparar barridos consecutivos del LIDAR y estimar el desplazamiento del sensor dentro del entorno. A partir de esta estimación, el paquete actualiza progresivamente el mapa de ocupación del laberinto.
+
+También se configuraron los marcos de referencia utilizados por el sistema:
+
+```xml
+<param name="map_frame" value="map" />
+<param name="base_frame" value="$(arg base_frame)" />
+<param name="odom_frame" value="$(arg odom_frame)" />
+```
+
+En esta implementación, tanto `base_frame` como `odom_frame` fueron definidos como `laser`, debido a que el mapeo se realizó tomando como referencia directa el marco del sensor LIDAR.
+
+Adicionalmente, se desactivó el uso de transformaciones externas para la estimación inicial de la pose:
+
+```xml
+<param name="use_tf_scan_transformation" value="false"/>
+<param name="use_tf_pose_start_estimate" value="false"/>
+```
+
 #### Resultados obtenidos
-#### Código fuente
+##### Código fuente
+```xml
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="tf_map_scanmatch_transform_frame_name" default="scanmatcher_frame"/>
+  <arg name="base_frame" default="laser"/>
+  <arg name="odom_frame" default="laser"/>
+  <arg name="pub_map_odom_transform" default="true"/>
+  <arg name="scan_subscriber_queue_size" default="5"/>
+  <arg name="scan_topic" default="scan"/>
+  <arg name="map_size" default="128"/>
+  
+  <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
+    
+    <!-- Frame names -->
+    <param name="map_frame" value="map" />
+    <param name="base_frame" value="$(arg base_frame)" />
+    <param name="odom_frame" value="$(arg odom_frame)" />
+    
+    <!-- Tf use -->
+    <param name="use_tf_scan_transformation" value="false"/>
+    <param name="use_tf_pose_start_estimate" value="false"/>
+    <param name="pub_map_odom_transform" value="$(arg pub_map_odom_transform)"/>
+    
+    <!-- Map size / start point -->
+    <param name="map_resolution" value="0.025"/>
+    <param name="map_size" value="$(arg map_size)"/>
+    <param name="map_start_x" value="0.5"/>
+    <param name="map_start_y" value="0.5" />
+    <param name="map_multi_res_levels" value="2" />
+    
+    <!-- Map update parameters -->
+    <param name="update_factor_free" value="0.4"/>
+    <param name="update_factor_occupied" value="0.9" />    
+    <param name="map_update_distance_thresh" value="0.2"/>
+    <param name="map_update_angle_thresh" value="0.03" />
+    <param name="laser_z_min_value" value = "-1.0" />
+    <param name="laser_z_max_value" value = "1.0" />
+    
+    <!-- Advertising config --> 
+    <param name="advertise_map_service" value="true"/>
+    
+    <param name="scan_subscriber_queue_size" value="$(arg scan_subscriber_queue_size)"/>
+    <param name="scan_topic" value="$(arg scan_topic)"/>
+    
+    <param name="tf_map_scanmatch_transform_frame_name" value="$(arg tf_map_scanmatch_transform_frame_name)" />
+  </node>
+    
+</launch>
+```
+##### Imágenes del mapeo
