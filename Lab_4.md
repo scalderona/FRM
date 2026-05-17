@@ -175,6 +175,8 @@ void loop() {
 }
 ```
 
+##### Viedo con el Kobuki
+
 ## Actividad 2
 En esta actividad se integró una cámara web al workspace de ROS siguiendo el procedimiento descrito en la guía suministrada. Una vez configurado el dispositivo, se verificó su funcionamiento mediante la herramienta `rqt`, permitiendo visualizar la imagen capturada y validar su correcta incorporación al ecosistema ROS.
 
