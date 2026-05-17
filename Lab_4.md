@@ -396,6 +396,11 @@ y_data = ranges * np.sin(angles)
 
 #### Resultados obtenidos
 
+El esquema de prueba que se monto es el siguiente:
+
+<img width="960" height="1280" alt="WhatsApp Image 2026-05-17 at 12 56 24 PM (1)" src="https://github.com/user-attachments/assets/27112e7e-ea13-41cc-9ce2-0f24a9bad802" />
+
+
 ##### Código fuente
 
 ```python
@@ -560,7 +565,8 @@ Adicionalmente, se desactivó el uso de transformaciones externas para la estima
 <param name="use_tf_pose_start_estimate" value="false"/>
 ```
 
-#### Resultados obtenidos
+#### Resultados obtenido
+
 ##### Código fuente
 ```xml
 <?xml version="1.0"?>
@@ -613,3 +619,11 @@ Adicionalmente, se desactivó el uso de transformaciones externas para la estima
 </launch>
 ```
 ##### Imágenes del mapeo
+
+El laberinto propuesto para hacer mapping fue el siguiente:
+
+<img width="1600" height="1200" alt="WhatsApp Image 2026-05-17 at 5 33 03 PM (1)" src="https://github.com/user-attachments/assets/a08eee2b-6b62-4b30-84ff-8460be447287" />
+
+El mapa obtenido con hector slam es el siguiente: 
+
+<img width="1200" height="877" alt="Captura de pantalla de 2026-05-07 10-33-01" src="https://github.com/user-attachments/assets/52ae90df-f49d-44c1-a750-cd2b3db5799d" />
