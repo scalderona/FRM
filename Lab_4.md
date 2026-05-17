@@ -259,8 +259,76 @@ El objetivo de esta actividad fue realizar el reconocimiento y la adquisición d
 Una vez iniciado el nodo, se verificó el reconocimiento del dispositivo, la publicación de los tópicos asociados y la información suministrada por el sensor. Además, se revisó el tipo de mensaje generado, con el fin de identificar la estructura de los datos entregados por el RPLIDAR para su posterior procesamiento.
 
 ### Solución planteada
-#### Análisis de Mensajes
+
+Para el sensor **RPLIDAR C1**, el paquete `rplidar_ros` puede ejecutarse con alguno de los siguientes comandos:
+
+```bash
+roslaunch rplidar_ros rplidar_c1.launch
+```
+
+o, si se desea visualizar la información en RViz:
+
+```bash
+roslaunch rplidar_ros view_rplidar_c1.launch
+```
+
+## 1. Nodos involucrados
+
+El paquete `rplidar_ros` incluye principalmente los siguientes ejecutables:
+
+- `rplidarNode`
+- `rplidarNodeClient`
+
+### Descripción
+
+- `rplidarNode`: nodo principal encargado de adquirir y publicar la información del sensor.
+- `rplidarNodeClient`: aplicación cliente de prueba para visualizar resultados en consola.
+
+---
+
+## 2. Tópico principal del sensor
+
+### `/scan`
+
+- **Tipo de mensaje:** `sensor_msgs/LaserScan`
+- **Descripción:** contiene el barrido láser bidimensional del entorno generado por el RPLIDAR. En este tópico se publican las distancias medidas para diferentes direcciones angulares durante cada escaneo.
+
+---
+
+## 3. Información contenida en el mensaje `sensor_msgs/LaserScan`
+
+El mensaje `sensor_msgs/LaserScan` contiene, entre otros, los siguientes campos:
+
+- `header`: cabecera del mensaje, incluye el tiempo de publicación y el marco de referencia.
+- `angle_min`: ángulo inicial del escaneo en radianes.
+- `angle_max`: ángulo final del escaneo en radianes.
+- `angle_increment`: separación angular entre muestras consecutivas.
+- `time_increment`: tiempo entre mediciones consecutivas.
+- `scan_time`: tiempo total de un barrido completo.
+- `range_min`: distancia mínima válida.
+- `range_max`: distancia máxima válida.
+- `ranges`: arreglo con las distancias medidas.
+- `intensities`: arreglo con intensidades de retorno, cuando el sensor las proporciona.
+
+---
+
+## 4. Interpretación del tópico `/scan`
+
+La información publicada en `/scan` representa una nube angular de distancias en un plano 2D. Este tópico puede utilizarse posteriormente para tareas como:
+
+- detección de obstáculos,
+- navegación móvil,
+- localización,
+- construcción de mapas 2D,
+- algoritmos SLAM.
+---
+
 #### Resultados obtenidos
+
+al abrir el visualizador rviz estos son los datos suministrados por el lidar. 
+
+<img width="1189" height="877" alt="Captura de pantalla de 2026-04-29 17-24-41" src="https://github.com/user-attachments/assets/733cf8f6-e649-4720-b803-3905d24e0700" />
+
 
 ## Actividad 4
 Una vez completada la configuración del RPLIDAR C1, se construyó un laberinto como entorno controlado para contrastar las mediciones generadas por el sensor con las dimensiones reales del escenario. Para ello, se ubicó un elemento de referencia dentro del laberinto, se extrajeron los datos crudos del LIDAR y se transformaron a coordenadas cartesianas para su posterior análisis y comparación con las medidas reales.
