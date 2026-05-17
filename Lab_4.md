@@ -113,7 +113,7 @@ De acuerdo con las variables leídas y procesadas en el código, la información
 
 const int MPU_ADDR = 0x68;  // Dirección I2C del MPU6050
 
-int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
+int16_t AcX, AcY, AcZ, GyX, GyY, GyZ;
 
 void setup() {
   Serial.begin(115200);
@@ -138,7 +138,6 @@ void loop() {
   AcX = Wire.read() << 8 | Wire.read();
   AcY = Wire.read() << 8 | Wire.read();
   AcZ = Wire.read() << 8 | Wire.read();
-  Tmp = Wire.read() << 8 | Wire.read();
   GyX = Wire.read() << 8 | Wire.read();
   GyY = Wire.read() << 8 | Wire.read();
   GyZ = Wire.read() << 8 | Wire.read();
@@ -165,15 +164,11 @@ void loop() {
   //Serial.print(" g\tAy: "); Serial.print(ay, 3);
   //Serial.print(" g\tAz: "); Serial.print(az, 3);
 
- // Serial.print("\tGx: "); Serial.print(gx, 2);
   //Serial.print(" °/s\tGy: "); Serial.print(gy, 2);
   //Serial.print(" °/s\tGz: "); Serial.print(gz, 2);
 
   //Serial.print(" °/s\tRoll: "); Serial.print(roll, 2);
   //Serial.print(" °\tPitch: "); Serial.print(pitch, 2);
-
-  //Serial.print(" °\tTemp: "); Serial.print(temperatura, 2);
-  //Serial.println(" °C");
 
   delay(200);
 }
