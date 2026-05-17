@@ -17,12 +17,95 @@ Posteriormente, los datos crudos obtenidos desde el sensor fueron convertidos a 
 Para establecer la comunicación entre Arduino y ROS se utilizó la librería `rosserial`, la cual permitió conectar la tarjeta de desarrollo con el ecosistema ROS mediante el puerto serial. De esta manera, la información adquirida por la IMU pudo ser enviada desde Arduino hacia el computador y publicada en un tópico de ROS. En este caso, el patrón utilizado correspondió a los valores de orientación obtenidos por la IMU integrada del robot Kobuki durante la ejecución de movimientos programados.
 
 #### Análisis de Mensajes
-La comunicación entre Arduino y ROS se realizó mediante comunicación serial, siguiendo el enfoque propuesto por `rosserial` para integrar tarjetas de desarrollo con ROS. Los datos adquiridos por la IMU MPU6050 fueron enviados desde Arduino hacia el computador a través del puerto serial y posteriormente publicados en un tópico de ROS.
+La comunicación entre Arduino y ROS se realizó mediante comunicación serial, siguiendo el enfoque propuesto por `rosserial` para la integración de tarjetas de desarrollo dentro del ecosistema ROS. Este procedimiento permitió transmitir la información adquirida por la IMU desde la tarjeta Arduino hacia el computador mediante el puerto serial.
 
-Esta estructura permitió que la información del sensor externo pudiera ser interpretada por otros nodos del sistema, facilitando su visualización, análisis y comparación con el patrón de referencia obtenido a partir de la IMU del robot Kobuki.
+En el código implementado, la tarjeta Arduino realizó la lectura del sensor MPU6050 a través del protocolo I2C. Para ello, se incluyó la librería `Wire`, la cual permite establecer la comunicación con dispositivos I2C, y se definió la dirección del sensor:
 
-Cabe aclarar que el código de Arduino empleó transmisión serial convencional mediante `Serial.print()`, por lo que no se implementó directamente un publicador de `rosserial` dentro de la tarjeta.
-#### Resultados obtenidos
+```cpp
+#include <Wire.h>
+
+const int MPU_ADDR = 0x68;
+```
+
+Posteriormente, en la función `setup()` se inicializó la comunicación serial y se configuró el sensor para salir del modo de reposo. Esto permitió que el MPU6050 comenzara a entregar datos desde sus registros internos:
+
+```cpp
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+
+  Wire.beginTransmission(MPU_ADDR);
+  Wire.write(0x6B);
+  Wire.write(0);
+  Wire.endTransmission(true);
+}
+```
+
+La adquisición de datos se realizó solicitando la lectura de los registros del sensor a partir de la dirección `0x3B`. Desde este punto se obtuvieron los valores crudos correspondientes al acelerómetro, temperatura y giroscopio:
+
+```cpp
+Wire.beginTransmission(MPU_ADDR);
+Wire.write(0x3B);
+Wire.endTransmission(false);
+Wire.requestFrom(MPU_ADDR, 14, true);
+
+AcX = Wire.read() << 8 | Wire.read();
+AcY = Wire.read() << 8 | Wire.read();
+AcZ = Wire.read() << 8 | Wire.read();
+Tmp = Wire.read() << 8 | Wire.read();
+GyX = Wire.read() << 8 | Wire.read();
+GyY = Wire.read() << 8 | Wire.read();
+GyZ = Wire.read() << 8 | Wire.read();
+```
+
+Estos valores crudos fueron convertidos a unidades físicas para facilitar su interpretación. Las aceleraciones se expresaron en unidades de gravedad `g`, mientras que las velocidades angulares se expresaron en grados por segundo:
+
+```cpp
+float ax = AcX / 16384.0;
+float ay = AcY / 16384.0;
+float az = AcZ / 16384.0;
+
+float gx = GyX / 131.0;
+float gy = GyY / 131.0;
+float gz = GyZ / 131.0;
+```
+
+Adicionalmente, a partir de las componentes de aceleración se calcularon los ángulos de inclinación `roll` y `pitch`, los cuales permiten describir parcialmente la orientación del sensor:
+
+```cpp
+float roll  = atan2(ay, az) * 180.0 / PI;
+float pitch = atan2(-ax, sqrt(ay * ay + az * az)) * 180.0 / PI;
+```
+
+Finalmente, la información adquirida fue enviada mediante instrucciones de impresión serial. Esto permitió que los datos pudieran ser leídos desde ROS y posteriormente publicados en un tópico para su análisis:
+
+```cpp
+Serial.print("Ax: ");
+Serial.println(ax, 3);
+
+delay(200);
+```
+
+La frecuencia de actualización estuvo determinada por el retardo definido en el código mediante `delay(200)`, lo cual equivale aproximadamente a una lectura cada `0.2 s`, es decir, una frecuencia cercana a `5 Hz`.
+
+De acuerdo con las variables leídas y procesadas en el código, la información disponible para el análisis fue la siguiente:
+
+| Variable | Descripción | Unidad |
+|---|---|---|
+| `AcX` | Valor crudo de aceleración en el eje X | bits |
+| `AcY` | Valor crudo de aceleración en el eje Y | bits |
+| `AcZ` | Valor crudo de aceleración en el eje Z | bits |
+| `GyX` | Valor crudo del giroscopio en el eje X | bits |
+| `GyY` | Valor crudo del giroscopio en el eje Y | bits |
+| `GyZ` | Valor crudo del giroscopio en el eje Z | bits |
+| `ax` | Aceleración convertida en el eje X | g |
+| `ay` | Aceleración convertida en el eje Y | g |
+| `az` | Aceleración convertida en el eje Z | g |
+| `gx` | Velocidad angular en el eje X | °/s |
+| `gy` | Velocidad angular en el eje Y | °/s |
+| `gz` | Velocidad angular en el eje Z | °/s |
+| `roll` | Ángulo de inclinación respecto al eje longitudinal | grados |
+| `pitch` | Ángulo de inclinación respecto al eje lateral | grados |
 
 ## Actividad 2
 En esta actividad se integró una cámara web al workspace de ROS siguiendo el procedimiento descrito en la guía suministrada. Una vez configurado el dispositivo, se verificó su funcionamiento mediante la herramienta `rqt`, permitiendo visualizar la imagen capturada y validar su correcta incorporación al ecosistema ROS.
