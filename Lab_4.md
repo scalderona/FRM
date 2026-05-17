@@ -10,9 +10,18 @@ El objetivo de esta actividad fue implementar la conexión de un sensor externo 
 Debido a que el sensor seleccionado fue una Unidad de Medición Inercial (IMU), el patrón de comparación correspondió a los valores de orientación en yaw proporcionados por la IMU integrada del robot Kobuki. Estos valores fueron obtenidos durante la ejecución de movimientos programados en el robot, con el fin de contrastar las mediciones del sensor externo frente a una referencia conocida.
 
 ### Solución planteada
-Se realizó la instalación de la libreria `rosserial` ya que este permite la comunicación entre el Arduino y el entorno ROS
+Para la integración del sensor externo se utilizó una Unidad de Medición Inercial MPU6050 conectada a una tarjeta Arduino mediante comunicación I2C. El código implementado en la tarjeta permitió inicializar la comunicación con el sensor, configurar su dirección de operación y leer los registros correspondientes al acelerómetro y giroscopio.
+
+Posteriormente, los datos crudos obtenidos desde el sensor fueron convertidos a unidades físicas. En el caso del acelerómetro, las mediciones fueron expresadas en unidades de gravedad, mientras que las velocidades angulares del giroscopio fueron convertidas a grados por segundo. Adicionalmente, a partir de las componentes de aceleración se calcularon los ángulos de inclinación `roll` y `pitch`.
+
+Para establecer la comunicación entre Arduino y ROS se utilizó la librería `rosserial`, la cual permitió conectar la tarjeta de desarrollo con el ecosistema ROS mediante el puerto serial. De esta manera, la información adquirida por la IMU pudo ser enviada desde Arduino hacia el computador y publicada en un tópico de ROS. En este caso, el patrón utilizado correspondió a los valores de orientación obtenidos por la IMU integrada del robot Kobuki durante la ejecución de movimientos programados.
 
 #### Análisis de Mensajes
+La comunicación entre Arduino y ROS se realizó mediante comunicación serial, siguiendo el enfoque propuesto por `rosserial` para integrar tarjetas de desarrollo con ROS. Los datos adquiridos por la IMU MPU6050 fueron enviados desde Arduino hacia el computador a través del puerto serial y posteriormente publicados en un tópico de ROS.
+
+Esta estructura permitió que la información del sensor externo pudiera ser interpretada por otros nodos del sistema, facilitando su visualización, análisis y comparación con el patrón de referencia obtenido a partir de la IMU del robot Kobuki.
+
+Cabe aclarar que el código de Arduino empleó transmisión serial convencional mediante `Serial.print()`, por lo que no se implementó directamente un publicador de `rosserial` dentro de la tarjeta.
 #### Resultados obtenidos
 
 ## Actividad 2
