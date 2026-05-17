@@ -492,12 +492,41 @@ if __name__ == '__main__':
 ```
 ##### Grafico obtenido y comparación de distancia
 
+<img src="Varios/GEO_culst.png" />
 
+Los tramos obtenidos a partir de los datos del LIDAR fueron agrupados mediante un proceso de **geo-clustering**, con el fin de identificar el segmento correspondiente al elemento de referencia dentro del entorno. Posteriormente, la longitud estimada por el sensor fue comparada con la medida tomada manualmente en el laboratorio.
+
+La medida real registrada con metro fue de **16,5 cm**, mientras que la medida obtenida a partir del sensor fue de **16,12 cm**. Esto representa una diferencia de **0,38 cm** y un error porcentual aproximado de **2,30 %**.
+
+```math
+Error\ porcentual = \frac{|16.5 - 16.12|}{16.5} \times 100 = 2.30\%
+```
 
 ## Actividad 5
 Una vez completada la configuración del RPLIDAR C1 y realizada la investigación sobre el paquete `hector_slam`, se construyó un nuevo laberinto para implementar el proceso de mapeo del entorno en ROS. Esta actividad permitió analizar el funcionamiento del paquete, su uso de la información del LIDAR y la generación de un mapa del escenario de prueba.
 
 ### Solución planteada
+
+### Solución planteada
+
+Para esta actividad se utilizó el paquete `hector_slam`, específicamente el nodo `hector_mapping`, con el propósito de generar un mapa del laberinto construido a partir de la información suministrada por el RPLIDAR C1.
+
+La solución consistió en configurar un archivo tipo `launch` llamado `mapping_default.launch`, encargado de iniciar el nodo de mapeo y definir los parámetros necesarios para la generación del mapa. Este nodo recibe la información del sensor LIDAR a través del tópico `/scan`, el cual contiene los datos del barrido láser del entorno.
+
+A diferencia de otros métodos de SLAM que requieren información de odometría, `hector_slam` puede estimar el movimiento del robot principalmente a partir de las lecturas del LIDAR. Por esta razón, en la configuración utilizada se definieron los marcos de referencia `base_frame` y `odom_frame` como `laser`, permitiendo trabajar directamente con la información del sensor.
+
+```xml
+<arg name="base_frame" default="laser"/>
+<arg name="odom_frame" default="laser"/>
+<arg name="scan_topic" default="scan"/>
+```
+
+El nodo principal se ejecutó mediante la siguiente configuración:
+
+```xml
+<node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
+```
+
 #### Análisis de Mensajes
 #### Resultados obtenidos
 #### Código fuente
