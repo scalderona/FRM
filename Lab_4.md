@@ -182,9 +182,9 @@ En esta actividad se integró una cámara web al workspace de ROS siguiendo el p
 
 ### Solución planteada
 
-Para la implementación de la cámara web se utilizó el tópico `/usb_cam/image_raw`, el cual permitió recibir la información visual capturada por el dispositivo dentro del ecosistema ROS. A partir de este tópico, se desarrolló un nodo en Python llamado `image_detector.py`, encargado de suscribirse a la imagen publicada por la cámara y procesarla mediante OpenCV.
+Para la implementación de la cámara web se utilizó el tópico `/usb_cam/image_raw`, el cual permitió recibir la información visual capturada por el dispositivo. A partir de este tópico, se desarrolló un nodo en Python llamado `image_detector.py`, encargado de suscribirse a la imagen publicada por la cámara y procesarla mediante OpenCV.
 
-El nodo empleó la librería `cv_bridge` para convertir los mensajes de imagen de ROS al formato compatible con OpenCV. De esta manera, cada frame recibido desde la cámara pudo ser procesado para realizar operaciones básicas de visión artificial, como conversión a escala de grises, umbralización, detección de contornos y detección de movimiento mediante sustracción de fondo.
+El nodo empleó la librería `cv_bridge` para convertir los mensajes de imagen de ROS al formato compatible con OpenCV.
 
 El nodo se inicializó de la siguiente manera:
 
@@ -256,6 +256,71 @@ cv2.waitKey(1)
 ```
 
 #### Resultados obtenidos
+
+##### Codígo
+
+```python
+#!/usr/bin/env python3
+
+import rospy
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
+import cv2
+
+class ImageDetector:
+    def __init__(self):
+        rospy.init_node('image_detector', anonymous=True)
+        self.bridge = CvBridge()
+        rospy.Subscriber("/usb_cam/image_raw", Image, self.callback)
+
+        # Sustractor de fondo para detectar movimiento
+        self.back_sub = cv2.createBackgroundSubtractorMOG2(
+            history=100,
+            varThreshold=50,
+            detectShadows=True
+        )
+
+        rospy.loginfo("Nodo de detección de imagen con contornos y movimiento iniciado.")
+        rospy.spin()
+
+    def callback(self, msg):
+        try:
+            # Convertir mensaje a imagen OpenCV
+            frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+
+            # Detección de contornos en escala de grises
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            _, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+            contours, _ = cv2.findContours(
+                thresh,
+                cv2.RETR_TREE,
+                cv2.CHAIN_APPROX_SIMPLE
+            )
+
+            # Dibujar contornos sobre la imagen original
+            frame_contours = frame.copy()
+            cv2.drawContours(frame_contours, contours, -1, (0, 255, 0), 2)
+
+            # Generar máscara de movimiento
+            fg_mask = self.back_sub.apply(frame)
+            kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
+            fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
+
+            # Mostrar resultados
+            cv2.imshow("Contornos en Imagen", frame_contours)
+            cv2.imshow("Máscara de Movimiento", fg_mask)
+            cv2.waitKey(1)
+
+        except Exception as e:
+            rospy.logerr("Error procesando la imagen: %s", str(e))
+
+if __name__ == "__main__":
+    try:
+        ImageDetector()
+    except rospy.ROSInterruptException:
+        pass
+```
+##### Captura de pantalla con la imagen de la cámara
 
 ## Actividad 3
 El objetivo de esta actividad fue realizar el reconocimiento y la adquisición de datos del sensor RPLIDAR C1 mediante el paquete `rplidar_ros`. Para ello, se descargó y configuró la librería correspondiente en el workspace de ROS y posteriormente se ejecutó el nodo del sensor mediante el comando `roslaunch rplidar_ros rplidar_c1.launch`.
