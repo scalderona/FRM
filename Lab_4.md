@@ -108,6 +108,7 @@ De acuerdo con las variables leídas y procesadas en el código, la información
 
 #### Resultados obtenidos
 
+##### Código Arduino - Lectura de IMU MPU6050
 ```cpp
 #include <Wire.h>
 
