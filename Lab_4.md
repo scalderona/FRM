@@ -52,7 +52,6 @@ Wire.requestFrom(MPU_ADDR, 14, true);
 AcX = Wire.read() << 8 | Wire.read();
 AcY = Wire.read() << 8 | Wire.read();
 AcZ = Wire.read() << 8 | Wire.read();
-Tmp = Wire.read() << 8 | Wire.read();
 GyX = Wire.read() << 8 | Wire.read();
 GyY = Wire.read() << 8 | Wire.read();
 GyZ = Wire.read() << 8 | Wire.read();
