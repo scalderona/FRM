@@ -427,3 +427,5 @@ while True:
 ```
 
 ### Video de funcionamiento
+
+[Ver video de la prueba](Varios/WhatsApp%20Video%202026-07-11%20at%204.59.56%20PM.mp4)
