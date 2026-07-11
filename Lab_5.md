@@ -7,7 +7,7 @@ Mateo Concha Buitrago
 ## Código 1: BUG
 ### Descripción del Código
 ### Diagrama de flujo 
-### Algoritmo 
+### Código
 ### Video de funcionamiento
 
 
@@ -64,7 +64,7 @@ flowchart TD
     Q --> D
     R --> D
 ```
-### Algoritmo 
+### Código
 
 ```python
 #!/usr/bin/env pybricks-micropython
