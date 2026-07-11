@@ -1,3 +1,5 @@
+
+
 # Lab 5 FMR: Navegación basada en comportamientos
 ## Grupo de trabajo 2
 Johan Sebastian Suarez Sepulveda\
@@ -396,6 +398,12 @@ while True:
 
     if (
         ya_encontro_pared_izq
+
+
+
+
+
+
         and puede_tomar_izquierda
         and distancia_izq > umbral_izquierda_abierta
     ):
@@ -428,4 +436,4 @@ while True:
 
 ### Video de funcionamiento
 
-
+https://github.com/user-attachments/assets/ce2c0779-2d1e-4295-a85f-d8dbc8443ef2
