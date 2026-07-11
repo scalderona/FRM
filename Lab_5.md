@@ -8,24 +8,19 @@ Mateo Concha Buitrago
 
 ## Código 1: BUG
 ### Descripción del Código
-El programa controla un robot LEGO EV3 que sigue una línea negra y evita obstáculos mediante una estrategia de navegación por estados. Para ello utiliza dos motores, un sensor de color, un sensor infrarrojo frontal, un sensor ultrasónico lateral y un giroscopio.
+El programa controla el robot LEGO que sigue la cinta negra y evita obstáculos mediante una estrategia de navegación por estados. Para ello se utilizó un sensor de color, un sensor infrarrojo frontal, un sensor ultrasónico lateral y un giroscopio.
 
 El funcionamiento principal se divide en cinco estados:
 
-1. **Seguidor de línea:**
-   El robot utiliza un controlador PID para mantener el sensor de color sobre el borde de la línea negra. La velocidad de cada motor se ajusta a partir del error entre la reflexión medida y el valor objetivo.
+1. Seguidor de línea: El robot utiliza un controlador PID para mantener el sensor de color sobre el borde de la línea negra. La velocidad de cada motor se ajusta a partir del error entre la reflexión medida y el valor objetivo.
 
-2. **Giro de 90°:**
-   Cuando el sensor infrarrojo confirma un obstáculo frontal, el robot se detiene y realiza un giro de 90° utilizando el giroscopio.
+2. Giro de 90°: Cuando el sensor infrarrojo confirma un obstáculo frontal, el robot se detiene y realiza un giro de 90° utilizando el giroscopio.
 
-3. **Rodeo del obstáculo:**
-   Después del giro, el robot utiliza el sensor ultrasónico lateral derecho para mantener una distancia aproximada de 100 mm respecto al obstáculo mientras lo bordea.
+3. Rodeo del obstáculo: Después del giro, el robot utiliza el sensor ultrasónico lateral derecho para mantener una distancia aproximada de 100 mm respecto al obstáculo mientras lo bordea.
 
-4. **Arco de reingreso:**
-   Cuando el sensor de color vuelve a detectar la línea negra, el robot realiza una curva cerrada para acercarse nuevamente a la trayectoria.
+4. Arco de reingreso: Cuando el sensor de color vuelve a detectar la línea negra, el robot realiza una curva cerrada para acercarse nuevamente a la trayectoria.
 
-5. **Giro de reingreso:**
-   Finalmente, ejecuta un giro adicional de 15° y reinicia el controlador PID antes de volver al seguimiento normal de la línea.
+5. Giro de reingreso: Finalmente, ejecuta un giro adicional de 15° y reinicia el controlador PID antes de volver al seguimiento normal de la línea.
 
 Las detecciones del obstáculo y de la línea deben repetirse durante varios ciclos para evitar decisiones provocadas por ruido en los sensores.
 
@@ -505,12 +500,7 @@ while True:
 
 ## Código 2: MAZE
 ### Descripción del Código
-El programa controla el robot LEGO EV3 para recorrer un laberinto siguiendo la **pared izquierda**. Para ello utiliza:
-
-* Dos motores para el desplazamiento.
-* Un sensor ultrasónico frontal para detectar obstáculos.
-* Un sensor ultrasónico izquierdo para identificar paredes y aberturas.
-* Un giroscopio para mantener el movimiento recto y realizar giros de 90°.
+El programa controla el robot LEGO EV3 para recorrer un laberinto siguiendo la **pared izquierda**. Para ello se utilizó un sensor ultrasónico frontal para detectar obstáculos, un giroscopio para mantener el movimiento recto y realizar giros de 90° y un sensor ultrasónico izquierdo para identificar paredes y aberturas.
 
 El robot mantiene una distancia aproximada de **15 cm** respecto a la pared izquierda mediante un control proporcional. También utiliza el giroscopio para corregir desviaciones durante el avance.
 
