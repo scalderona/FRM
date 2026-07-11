@@ -500,7 +500,7 @@ while True:
 
 ## Código 2: MAZE
 ### Descripción del Código
-El programa controla el robot LEGO EV3 para recorrer un laberinto siguiendo la **pared izquierda**. Para ello se utilizó un sensor ultrasónico frontal para detectar obstáculos, un giroscopio para mantener el movimiento recto y realizar giros de 90° y un sensor ultrasónico izquierdo para identificar paredes y aberturas.
+El programa controla el robot LEGO para recorrer un laberinto siguiendo la **pared izquierda**. Para ello se utilizó un sensor ultrasónico frontal para detectar obstáculos, un giroscopio para mantener el movimiento recto y realizar giros de 90° y un sensor ultrasónico izquierdo para identificar paredes y aberturas.
 
 El robot mantiene una distancia aproximada de **15 cm** respecto a la pared izquierda mediante un control proporcional. También utiliza el giroscopio para corregir desviaciones durante el avance.
 
