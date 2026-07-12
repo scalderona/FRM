@@ -498,6 +498,12 @@ while True:
 ### Video de funcionamiento
 
 
+
+https://github.com/user-attachments/assets/96cd9b03-75bf-4369-9010-8dda06667202
+
+
+
+
 ## Código 2: MAZE
 ### Descripción del Código
 El programa controla el robot LEGO para recorrer un laberinto siguiendo la **pared izquierda**. Para ello se utilizó un sensor ultrasónico frontal para detectar obstáculos, un giroscopio para mantener el movimiento recto y realizar giros de 90° y un sensor ultrasónico izquierdo para identificar paredes y aberturas.
