@@ -1,5 +1,8 @@
 Para mas informacion de funcionamiento revisar la siguiente presentacion.
 https://canva.link/tbacu6k4ax0a5vr
+
+<img width="1200" height="1600" alt="WhatsApp Image 2026-07-31 at 1 11 23 PM" src="https://github.com/user-attachments/assets/0e966752-b4f4-45f9-80a5-75af0ea87409" />
+
 # Robot EV3 Ackermann con ROS 2 Jazzy
 
 Este proyecto implementa el control, mapeo, localización y navegación autónoma de un robot tipo Ackermann construido sobre una plataforma EV3.
